@@ -1,0 +1,32 @@
+{
+  "status": "ok",
+  "totalResults": 38,
+  "articles": [
+    {
+      "source": {
+        "id": "the-verge",
+        "name": "The Verge"
+      },
+      "author": "Emma Roth",
+      "title": "Google’s Pixel Foldis here to take on Samsung’s Galaxy Z Fold 4",
+      "description": "Google has finally unveiled the Pixel Fold, its first foldable phone, at Google I/O 2023. The device features a 5.8-inch outer display and a 7.6-inch inner display, and it’s powered by Google’s Tensor G2 chip. The Pixel Fold also has a triple rear camera system and a 4,821mAh battery.",
+      "url": "https://www.theverge.com/2023/5/10/23719635/google-pixel-fold-announced-specs-features-price-release-date",
+      "urlToImage": "https://cdn.vox-cdn.com/thumbor/rOi-m_u0mu7-Kn7R_u2x5-KC1_E=/0x0:2040x1360/1200x628/filters:focal(858x518:1182x842)/cdn.vox-cdn.com/uploads/chorus_asset/file/24665892/vpavic_4293_230510_0045_006.jpg",
+      "publishedAt": "2023-05-10T18:00:00Z",
+      "content": "Google has finally unveiled the Pixel Fold, its first foldable phone, at Google I/O 2023. The device features a 5.8-inch outer display and a 7.6-inch inner display, and it’s powered by Google’s Tenso… [+4514 chars]"
+    },
+    {
+      "source": {
+        "id": "engadget",
+        "name": "Engadget"
+      },
+      "author": "Jon Fingas",
+      "title": "Google's Pixel Fold is official, costs $1,799",
+      "description": "Google has officially unveiled its long-rumored Pixel Fold. The foldable phone will start at $1,799 when it ships in June, and it's meant to directly challenge Samsung's Galaxy Z Fold 4 with a book-style design and a focus on software features.",
+      "url": "https://www.engadget.com/google-pixel-fold-official-170034367.html",
+      "urlToImage": "https://s.yimg.com/os/creatr-uploaded-images/2023-05/53272790-f230-11ed-b57f-a49930590699",
+      "publishedAt": "2023-05-10T17:00:45Z",
+      "content": "Google has officially unveiled its long-rumored Pixel Fold. The foldable phone will start at $1,799 when it ships in June, and it's meant to directly challenge Samsung's Galaxy Z Fold 4 with a book-sty… [+1395 chars]"
+    }
+  ]
+}

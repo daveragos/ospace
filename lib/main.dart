@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ospace/home.dart';
 
 void main() {
+
   runApp(const MainApp());
 }
 

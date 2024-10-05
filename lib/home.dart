@@ -7,6 +7,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:weather_pack/weather_pack.dart';
 
 import 'news_Article.dart';
 
@@ -26,8 +27,46 @@ class _HomeState extends State<Home> {
    ];
 
    List<dynamic> data = [];
+   WeatherCurrent? currently;
+   String temp_C = '';
+
+   Image getWeatherIcon(String weatherIcon) {
+     return Image.asset(
+       width: 50,
+       height: 50,
+       ImagePathWeather.getPathWeatherIcon(weatherIcon),
+       filterQuality: FilterQuality.high, // optional
+       package: ImagePathWeather.packageName,
+     );
+   }
+
+   void worksTempUnits({
+     double temp = 270.78, // ex. received from [WeatherCurrent.temp]
+     int precision = 3,
+     Temp unitsMeasure = Temp.celsius,
+   }) {
+     temp_C = unitsMeasure.valueToString(temp, precision);
+     print(unitsMeasure.valueToString(temp, precision)); // `-2.370` type `String`
+   }
+
+   Future<void> getOnecallWeatherWays(String api) async {
+     final wService = WeatherService(api);
+
+     // get the current weather in Amsterdam
+     currently = await wService.currentWeatherByLocation(
+         latitude: 52.374, longitude: 4.88969);
+worksTempUnits(temp: currently?.temp ?? 270);
+// getWeatherIcon(currently.weatherIcon!);
+     print(currently);
+   }
+
 
     Future<List<String>> loadNewsArticles() async {
+
+      const api = '3721410d028c8efa237d9196d80a6061'; // TODO: change to your openweathermap APIkey
+      getOnecallWeatherWays(api);
+
+
       final response = await http.get(Uri.parse(
           'https://hacker-news.firebaseio.com/v0/newstories.json'));
        data = json.decode(response.body);
@@ -97,7 +136,12 @@ class _HomeState extends State<Home> {
                       SizedBox(
                         width: 20,
                       ),
-                      Text('Temp',style: TextStyle(fontSize: 20),)
+                      Column(
+                        children: [
+                          getWeatherIcon(currently?.weatherIcon ?? '/assets/img.png'),
+                          Text('$temp_C C',style: TextStyle(fontSize: 15),),
+                        ],
+                      )
                     ],
                   ),
                 ],

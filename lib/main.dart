@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ospace/home.dart';
 
 void main() {
-
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MainApp());
 }
 

@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:any_link_preview/any_link_preview.dart';
 import 'package:coingecko_api/coingecko_api.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:weather_pack/weather_pack.dart';
@@ -176,12 +177,19 @@ getWeatherIcon(currently!.weatherIcon ?? '13d');
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child:
-                          AnyLinkPreview(link: urls[index],
-                            displayDirection: UIDirection.uiDirectionHorizontal,
-                            errorImage: 'assets/img.png',
-                            cache: Duration(hours: 1),
-                            errorWidget: SizedBox(
-                              // child: Text('Oops!'),
+                          GestureDetector(
+                            onTap: (){
+                               InAppWebView(
+                                initialUrlRequest: URLRequest(url: WebUri(urls[index])),
+                             );
+                            },
+                            child: AnyLinkPreview(link: urls[index],
+                              displayDirection: UIDirection.uiDirectionHorizontal,
+                              errorImage: 'assets/img.png',
+                              cache: Duration(hours: 1),
+                              errorWidget: SizedBox(
+                                // child: Text('Oops!'),
+                              ),
                             ),
                           ),
                         );

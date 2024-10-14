@@ -70,44 +70,44 @@ Future<void> getOnecallWeatherWays({String api = ''}) async {
     logger.d(result.runtimeType);
     }
 
+// Fetch story IDs only once
+  Future<List<int>> fetchNewsStoryIds() async {
+    final response = await http.get(Uri.parse('https://hacker-news.firebaseio.com/v0/newstories.json'));
+    return List<int>.from(json.decode(response.body));
+  }
+  final Set<String> blacklist = {'https://x.com', 'twitter.com', 'bloomberg.com', 'github.com'};
 
+  // Method to validate URL
+  bool isValidUrl(String url) {
 
-  //news info api caller
-Future<List<String>> loadNewsArticles() async {
-  List<String> urls = [];
-  try {
-    final response = await http.get(
-      Uri.parse('https://hacker-news.firebaseio.com/v0/newstories.json'),
-    );
-
-    if (response.statusCode == 200) {
-      data = json.decode(response.body);
-
-      for (int link in data) {
-        final itemResponse = await http.get(
-          Uri.parse('https://hacker-news.firebaseio.com/v0/item/$link.json'),
-        );
-
-        if (itemResponse.statusCode == 200) {
-          final info = json.decode(itemResponse.body);
-          String? url = info['url'];
-          if (url != null) {
-            urls.add(url);
-          }
-        } else {
-          throw Exception("Error loading item: ${itemResponse.statusCode}");
-        }
-      }
-    } else {
-      throw Exception("Error loading stories: ${response.statusCode}");
+    if (blacklist.any((disallowedUrl) => url.contains(disallowedUrl))) {
+      return false;
     }
-  } catch (e) {
-    // Log the error
-    Logger().e('Error loading news articles: $e');
+
+    return true;
   }
 
-  return urls;
-}
-
+  // Fetch the details of each story by ID
+  Future<List<String>> loadNewsArticlesByIds(List<int> storyIds) async {
+    List<String> urls = [];
+    for (int storyId in storyIds) {
+      final response = await http.get(Uri.parse('https://hacker-news.firebaseio.com/v0/item/$storyId.json'));
+      if (response.statusCode == 200) {
+        final info = json.decode(response.body);
+        String? url = info['url'];
+        // Validate URL before adding to the list
+        if (url != null && isValidUrl(url)) {
+          urls.add(url);
+          Logger().t(url);
+        } else {
+          // Optionally log the invalid URL case
+          Logger().e('Invalid or disallowed URL for story ID $storyId: $url');
+        }
+      } else {
+        Logger().e('Failed to fetch story ID $storyId: ${response.reasonPhrase}');
+      }
+    }
+    return urls;
+  }
 
 }

@@ -45,44 +45,50 @@ class _NewsPageState extends State<NewsPage> {
 
     // Load the first page of stories
     await loadMoreNews();
-
+  if (mounted) {
     setState(() {
       isLoadingInitial = false; // Initial load finished
     });
   }
+  }
+// Fetch the weather information and update the state
+Future<void> fetchWeather() async {
+  final apiHelper = ApiHelper();
+  await apiHelper.getOnecallWeatherWays(api: '3721410d028c8efa237d9196d80a6061');
 
-  // Load more news articles based on currentPage and pageSize
-  Future<void> loadMoreNews() async {
-    if (currentPage * pageSize >= allStoryIds.length) return; // No more stories to load
-
+  if (mounted) {
     setState(() {
-      isLoadingMore = true;
+      tempC = apiHelper.worksTempUnits(temp: apiHelper.currently?.temp ?? 270);
+      weatherImage = apiHelper.getWeatherIcon(apiHelper.currently?.weatherIcon ?? '13d');
     });
+  }
+}
 
-    // Get the story IDs for the current page
-    final start = currentPage * pageSize;
-    final end = (start + pageSize > allStoryIds.length) ? allStoryIds.length : start + pageSize;
-    final storyIdsToLoad = allStoryIds.sublist(start, end);
+// Load more news articles based on currentPage and pageSize
+Future<void> loadMoreNews() async {
+  if (currentPage * pageSize >= allStoryIds.length) return; // No more stories to load
 
-    // Fetch story details and append them to the list of links
-    final newLinks = await ApiHelper().loadNewsArticlesByIds(storyIdsToLoad);
+  if (mounted) {
+  setState(() {
+    isLoadingMore = true;
+  });
+  }
+  // Get the story IDs for the current page
+  final start = currentPage * pageSize;
+  final end = (start + pageSize > allStoryIds.length) ? allStoryIds.length : start + pageSize;
+  final storyIdsToLoad = allStoryIds.sublist(start, end);
+
+  // Fetch story details and append them to the list of links
+  final newLinks = await ApiHelper().loadNewsArticlesByIds(storyIdsToLoad);
+
+  if (mounted) {
     setState(() {
       links.addAll(newLinks);
       isLoadingMore = false;
       currentPage++; // Increment the page for future "Load More" actions
     });
   }
-
-  // Fetch the weather information and update the state
-  Future<void> fetchWeather() async {
-    final apiHelper = ApiHelper();
-    await apiHelper.getOnecallWeatherWays(api: 'YOUR_WEATHER_API_KEY');
-
-    setState(() {
-      tempC = apiHelper.worksTempUnits(temp: apiHelper.currently?.temp ?? 270);
-      weatherImage = apiHelper.getWeatherIcon(apiHelper.currently?.weatherIcon ?? '13d');
-    });
-  }
+}
 
 
   @override
@@ -166,12 +172,13 @@ class _NewsPageState extends State<NewsPage> {
                                 // Handle tap event here (e.g., open the link)
                               },
                               child: AnyLinkPreview(
-                                link: links[index],
-                                displayDirection: UIDirection.uiDirectionHorizontal,
-                                errorImage: 'https://pbs.twimg.com/profile_images/1148430319680393216/nNOYLkdH_400x400.png',
-                                cache: Duration(hours: 1),
-                                errorWidget: SizedBox(),
-                              ),
+  link: links[index],
+  displayDirection: UIDirection.uiDirectionHorizontal,
+  errorImage: 'https://pbs.twimg.com/profile_images/1148430319680393216/nNOYLkdH_400x400.png',
+  cache: Duration(hours: 1),
+  errorWidget: Container(), // Use Container() instead of SizedBox()
+)
+
                             ),
                           );
                         },

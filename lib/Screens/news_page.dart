@@ -1,5 +1,6 @@
 import 'package:any_link_preview/any_link_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:ospace/Screens/custom_inapp_webview.dart';
 import 'package:ospace/service/api_helper.dart';
 import 'package:ospace/widgets/shimmer_card_widget.dart';
 import 'package:weather_pack/weather_pack.dart';
@@ -167,18 +168,20 @@ Future<void> loadMoreNews() async {
                           // Show news item
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: GestureDetector(
+                            child: AnyLinkPreview(
                               onTap: () {
-                                // Handle tap event here (e.g., open the link)
-                              },
-                              child: AnyLinkPreview(
-  link: links[index],
-  displayDirection: UIDirection.uiDirectionHorizontal,
-  errorImage: 'https://pbs.twimg.com/profile_images/1148430319680393216/nNOYLkdH_400x400.png',
-  cache: Duration(hours: 1),
-  errorWidget: Container(), // Use Container() instead of SizedBox()
-)
-
+                                          Navigator.push(context, MaterialPageRoute(
+                                            builder: (context) {
+                                              return  CustomInAppBrowser(
+                                                url: links[index],
+                                              );
+                            },));
+                            },
+                              link: links[index],
+                              displayDirection: UIDirection.uiDirectionHorizontal,
+                              errorImage: 'https://pbs.twimg.com/profile_images/1148430319680393216/nNOYLkdH_400x400.png',
+                              cache: Duration(hours: 1),
+                              errorWidget: Container(),
                             ),
                           );
                         },

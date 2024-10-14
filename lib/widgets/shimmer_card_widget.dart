@@ -28,50 +28,15 @@ class ShimmerNewsCard extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(
-              width: 20,
-            ),
-            Column(
-              children: [
-                ClipRRect(
-                  child: Shimmer(
-                     gradient: LinearGradient(colors: [
-                        Colors.grey.shade400,
-                        Colors.grey.shade500,
-                        Colors.grey,
-                        Colors.grey.shade600,
-                      ]),
-                      child: Container(
-                        color: Colors.white,
-                        width: 180,
-                        height: 20,
-                      ),
-                     ),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                ClipRRect(
-                  child: Shimmer(
-                     gradient: LinearGradient(colors: [
-                        Colors.grey.shade400,
-                        Colors.grey.shade500,
-                        Colors.grey,
-                        Colors.grey.shade600,
-                      ]),
-                      child: Container(
-                        color: Colors.white,
-                        width: 180,
-                        height: 20,
-                      ),
-                     ),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                ClipRRect(
-                  child: Shimmer(
+            const SizedBox(width: 20),
 
+            // Wrap the Column in Flexible to prevent overflow
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ClipRRect(
+                    child: Shimmer(
                       gradient: LinearGradient(colors: [
                         Colors.grey.shade400,
                         Colors.grey.shade500,
@@ -80,11 +45,29 @@ class ShimmerNewsCard extends StatelessWidget {
                       ]),
                       child: Container(
                         color: Colors.white,
-                        width: 180,
+                        width: double.infinity, // Let it fill the available space
+                        height: 50,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  ClipRRect(
+                    child: Shimmer(
+                      gradient: LinearGradient(colors: [
+                        Colors.grey.shade400,
+                        Colors.grey.shade500,
+                        Colors.grey,
+                        Colors.grey.shade600,
+                      ]),
+                      child: Container(
+                        color: Colors.white,
+                        width: double.infinity, // Let it fill the available space
                         height: 20,
-                      ),),
-                )
-              ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             )
           ],
         ),

@@ -50,7 +50,7 @@ Future<void> getOnecallWeatherWays({String api = ''}) async {
     getWeatherIcon(currently?.weatherIcon ?? '13d');
   } on OwmApiException catch (e) {
     Logger().e('OpenWeatherMap API Error: ${e.message}');
-  } on SocketException catch (e) {
+  } on SocketException {
     Logger().e('Network Error: Failed to connect. Check your internet connection.');
   } catch (e) {
     Logger().e('Unexpected Error: $e');

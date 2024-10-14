@@ -5,8 +5,6 @@ import 'package:ospace/Screens/crypto_page.dart';
 import 'package:ospace/Screens/news_page.dart';
 import 'package:ospace/Screens/weather_page.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-
-
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -19,18 +17,11 @@ class _HomeState extends State<Home> {
 
   int selectedIndex = 1;
 
-  Widget getSelectedWidget({required int index}) {
-    switch (index) {
-      case 0:
-        return const WeatherPage();
-      case 1:
-        return const NewsPage();
-      case 2:
-        return const CryptoPage();
-      default:
-        return const NewsPage();
-    }
-  }
+  final List<Widget> _pages = [
+    const CryptoPage(),
+    const NewsPage(),
+    const WeatherPage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +31,8 @@ class _HomeState extends State<Home> {
         color: Colors.teal,
         key: _bottomNavigationKey,
         buttonBackgroundColor: Colors.transparent,
-        animationDuration:  Duration(milliseconds: 300),
-        index: 1,
+        animationDuration: Duration(milliseconds: 300),
+        index: selectedIndex,
         items: <Widget>[
           PhosphorIcon(PhosphorIcons.currencyBtc(PhosphorIconsStyle.duotone), size: 30),
           PhosphorIcon(PhosphorIcons.newspaper(PhosphorIconsStyle.duotone), size: 30),
@@ -53,7 +44,12 @@ class _HomeState extends State<Home> {
           });
         },
       ),
-      body:  SafeArea(child: Container(child: getSelectedWidget(index: selectedIndex))),
+      body: SafeArea(
+        child: IndexedStack(
+          index: selectedIndex,
+          children: _pages,
+        ),
+      ),
     );
   }
 }

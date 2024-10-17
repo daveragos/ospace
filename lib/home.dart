@@ -2,6 +2,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:ospace/screens/crypto_page.dart';
+import 'package:ospace/screens/news_page.dart';
 import 'package:ospace/screens/weather_page.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 class Home extends StatefulWidget {
@@ -17,10 +18,10 @@ class _HomeState extends State<Home> {
   int selectedIndex = 1;
 
   final List<Widget> _pages = [
-    // const NewsPage(),
+    const CryptoPage(),
+    const NewsPage(),
     const WeatherPage(),
-    const CryptoPage(),
-    const CryptoPage(),
+    // const CryptoPage(),
   ];
 
   @override

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:ospace/model/weather.dart';
+import 'package:ospace/model/current_weather.dart';
+import 'package:ospace/model/daily_weather.dart';
+import 'package:ospace/model/hourly_weather.dart';
+import 'package:ospace/model/weather_data.dart';
 import 'package:ospace/service/api_helper.dart';
 import 'package:ospace/service/weather_images.dart';
 import 'package:ospace/widgets/k_app_bar.dart';

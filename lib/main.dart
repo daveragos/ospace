@@ -18,7 +18,7 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.teal,
         fontFamily: 'Poppins',
-        scaffoldBackgroundColor: Colors.teal[100],
+        scaffoldBackgroundColor: Colors.teal[50],
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
     );

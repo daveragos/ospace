@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:ospace/screens/custom_inapp_webview.dart';
 import 'package:ospace/service/api_helper.dart';
 import 'package:ospace/widgets/shimmer_card_widget.dart';
-import 'package:weather_pack/weather_pack.dart';
 import 'package:shimmer/shimmer.dart';
 
 class NewsPage extends StatefulWidget {
@@ -21,12 +20,7 @@ class _NewsPageState extends State<NewsPage> {
   int currentPage = 0;
   final int pageSize = 30; // Number of articles to load at once
   String tempC = '';
-  Image weatherImage = Image.asset(
-    width: 50,
-    height: 50,
-    ImagePathWeather.getPathWeatherIcon('13d'),
-    package: ImagePathWeather.packageName,
-  );
+
 
   @override
   void initState() {
@@ -117,7 +111,11 @@ Future<void> loadMoreNews() async {
                       SizedBox(width: 20),
                       Column(
                         children: [
-                          weatherImage,
+                          Image.asset(
+                            'assets/icons/storm.png',
+                            width: 50,
+                            height: 50,
+                          ),
                           Text('$tempC °C', style: TextStyle(fontSize: 15)),
                         ],
                       ),

@@ -5,7 +5,7 @@ String getWeatherIconFromCode(int wmoCode) {
     case 1:
     case 2:
     case 3:
-      return 'assets/icons/partly-cloudy.png';
+      return 'assets/icons/partly-cloud.png';
     case 45:
     case 48:
       return 'assets/icons/fog.png';
@@ -36,6 +36,6 @@ String getWeatherIconFromCode(int wmoCode) {
     case 99:
       return 'assets/icons/storm.png';
     default:
-      return 'assets/icons/partly-cloudy.png';
+      return 'assets/icons/partly-cloud.png';
   }
 }

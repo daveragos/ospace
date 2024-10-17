@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ospace/model/weather.dart';
+import 'package:ospace/model/daily_weather.dart';
+import 'package:ospace/model/weather_data.dart';
 import 'package:ospace/service/weather_images.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 

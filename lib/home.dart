@@ -17,9 +17,9 @@ class _HomeState extends State<Home> {
   int selectedIndex = 1;
 
   final List<Widget> _pages = [
-    const CryptoPage(),
     // const NewsPage(),
     const WeatherPage(),
+    const CryptoPage(),
     const CryptoPage(),
   ];
 

@@ -4,8 +4,7 @@ import 'dart:io';
 import 'package:coingecko_api/coingecko_api.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
-import 'package:ospace/model/weather.dart';
-import 'package:weather_pack/weather_pack.dart';
+import 'package:ospace/model/weather_data.dart';
 import 'package:http/http.dart' as http;
 
 class ApiHelper {
@@ -13,48 +12,6 @@ class ApiHelper {
 
   bool icon = false;
   List<dynamic> data = [];
-  // WeatherCurrent? currently;
-
-  //weather icon getter based on the temp
-  Image getWeatherIcon(String weatherIcon) {
-    final weatherImage = Image.asset(
-      width: 50,
-      height: 50,
-      ImagePathWeather.getPathWeatherIcon(weatherIcon),
-      filterQuality: FilterQuality.high, // optional
-      package: ImagePathWeather.packageName,
-    );
-    return weatherImage;
-  }
-
-  // temp unit converter to celcius
-  String worksTempUnits({
-    double temp = 270.78,
-    Temp unitsMeasure = Temp.celsius,
-  }) {
-    final tempC = unitsMeasure.valueToString(temp);
-    return tempC;
-  }
-
-  Future<WeatherOneCall?> oneCallWeatherWays(
-      {String api = '3721410d028c8efa237d9196d80a6061'}) async {
-    final wService = WeatherService(api);
-    try {
-      WeatherOneCall currently = await wService.oneCallWeatherByLocation(
-        latitude: 52.374,
-        longitude: 4.88969,
-      );
-      return currently;
-    } on OwmApiException catch (e) {
-      Logger().e('OpenWeatherMap API Error: ${e.message}');
-    } on SocketException {
-      Logger().e(
-          'Network Error: Failed to connect. Check your internet connection.');
-    } catch (e) {
-      Logger().e('Unexpected Error: $e');
-    }
-    return null;
-  }
 
   // Future<WeatherCurrent?> getOnecallWeatherWays(
   //     {String api = '3721410d028c8efa237d9196d80a6061'}) async {
@@ -86,6 +43,21 @@ class ApiHelper {
       days: 7,
     );
     logger.d(result.runtimeType);
+  }
+
+
+  final String baseUrl = 'https://api.coingecko.com/api/v3';
+
+  Future<List<dynamic>> fetchCryptoPrices() async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=15&page=1&sparkline=false'),
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to load cryptocurrency data');
+    }
   }
 
 // Fetch story IDs only once

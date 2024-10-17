@@ -1,6 +1,6 @@
 import 'package:any_link_preview/any_link_preview.dart';
 import 'package:flutter/material.dart';
-import 'package:ospace/Screens/custom_inapp_webview.dart';
+import 'package:ospace/screens/custom_inapp_webview.dart';
 import 'package:ospace/service/api_helper.dart';
 import 'package:ospace/widgets/shimmer_card_widget.dart';
 import 'package:weather_pack/weather_pack.dart';
@@ -31,7 +31,7 @@ class _NewsPageState extends State<NewsPage> {
   @override
   void initState() {
     super.initState();
-    fetchWeather();
+    // fetchWeather();
     loadInitialNews();
   }
 
@@ -53,17 +53,17 @@ class _NewsPageState extends State<NewsPage> {
   }
   }
 // Fetch the weather information and update the state
-Future<void> fetchWeather() async {
-  final apiHelper = ApiHelper();
-  await apiHelper.getOnecallWeatherWays(api: '3721410d028c8efa237d9196d80a6061');
+// Future<void> fetchWeather() async {
+//   final apiHelper = ApiHelper();
+//   await apiHelper.getOnecallWeatherWays(api: '3721410d028c8efa237d9196d80a6061');
 
-  if (mounted) {
-    setState(() {
-      tempC = apiHelper.worksTempUnits(temp: apiHelper.currently?.temp ?? 270);
-      weatherImage = apiHelper.getWeatherIcon(apiHelper.currently?.weatherIcon ?? '13d');
-    });
-  }
-}
+//   if (mounted) {
+//     setState(() {
+//       tempC = apiHelper.worksTempUnits(temp: apiHelper.currently?.temp ?? 270);
+//       weatherImage = apiHelper.getWeatherIcon(apiHelper.currently?.weatherIcon ?? '13d');
+//     });
+//   }
+// }
 
 // Load more news articles based on currentPage and pageSize
 Future<void> loadMoreNews() async {

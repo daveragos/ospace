@@ -11,8 +11,16 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return  MaterialApp(
       home: Home(),
+      debugShowCheckedModeBanner: false,
+      title: 'Ospace',
+      theme: ThemeData(
+        primarySwatch: Colors.teal,
+        fontFamily: 'Poppins',
+        scaffoldBackgroundColor: Colors.teal[100],
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
     );
   }
 }

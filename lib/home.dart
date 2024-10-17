@@ -1,8 +1,8 @@
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:ospace/Screens/crypto_page.dart';
-import 'package:ospace/Screens/weather_page.dart';
+import 'package:ospace/screens/crypto_page.dart';
+import 'package:ospace/screens/weather_page.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 class Home extends StatefulWidget {
   const Home({super.key});

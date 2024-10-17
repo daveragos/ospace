@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ospace/model/weather.dart';
+import 'package:ospace/service/weather_images.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class SevenDaysForecast extends StatelessWidget {
@@ -28,7 +29,17 @@ class SevenDaysForecast extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              Text('more details ▶'),
+              Text('more details',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.blue,
+                decoration: TextDecoration.underline
+              )
+              ),
+              Icon(
+                Icons.arrow_forward_ios,
+                size: 16,
+              color: Colors.blue,)
             ],
           ),
         ),
@@ -63,15 +74,15 @@ class SevenDaysForecast extends StatelessWidget {
                         SizedBox(
                           height: 36.0,
                           width: 36.0,
-                          child: Image.network(
-                            'https://openweathermap.org/img/wn/10d@2x.png', // URL for the weather icon
+                          child:Image.asset(getWeatherIconFromCode(dailyForecasts.weatherCode[index],),
                             fit: BoxFit.cover,
                           ),
                         ),
                         const SizedBox(height: 4.0),
                         Text(
-                          'day.', // Description of the weather
+                          'day',
                         ),
+
                       ],
                     ),
                     FittedBox(

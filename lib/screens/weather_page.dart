@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:logger/logger.dart';
 import 'package:ospace/model/weather.dart';
 import 'package:ospace/service/api_helper.dart';
-import 'package:ospace/widgets/hourly_weather_info.dart';
+import 'package:ospace/service/weather_images.dart';
 import 'package:ospace/widgets/k_app_bar.dart';
 import 'package:ospace/widgets/date_and_location.dart';
 import 'package:ospace/widgets/seven_days_forecast.dart';
@@ -16,7 +15,6 @@ class WeatherPage extends StatefulWidget {
   @override
   State<WeatherPage> createState() => _WeatherPageState();
 }
-
 class _WeatherPageState extends State<WeatherPage> {
   final ApiHelper apiHelper = ApiHelper();
   WeatherData? weatherData;
@@ -28,9 +26,11 @@ class _WeatherPageState extends State<WeatherPage> {
     weatherData = await apiHelper.fetchWeatherData();
 
     if (weatherData != null) {
-      currentWeather = weatherData!.current;
-      hourlyWeather = weatherData!.hourly;
-      dailyWeather = weatherData!.daily;
+      setState(() {
+        currentWeather = weatherData!.current;
+        hourlyWeather = weatherData!.hourly;
+        dailyWeather = weatherData!.daily;
+      });
     }
   }
 
@@ -49,7 +49,6 @@ class _WeatherPageState extends State<WeatherPage> {
             padding: const EdgeInsets.all(16.0),
             child: weatherData != null
                 ? Column(
-
                     children: [
                       KAppBar(tempC: currentWeather!.temperature.toString()),
                       SizedBox(height: 40),
@@ -61,11 +60,13 @@ class _WeatherPageState extends State<WeatherPage> {
                       TempInfo(
                         tempC: currentWeather!.temperature.toString(),
                         currentTemperature: currentWeather!.temperature,
-                        weatherIconUrl: 'https://openweathermap.org/img/wn/10d@2x.png',
+                        weatherIconUrl:
+                            getWeatherIconFromCode(currentWeather!.weatherCode),
                       ),
+                      SizedBox(height: 20),
                       TwentyFourHourForecast(hourlyForecasts: hourlyWeather!),
+                      SizedBox(height: 20),
                       SevenDaysForecast(dailyForecasts: dailyWeather!),
-
                     ],
                   )
                 : Center(child: CircularProgressIndicator()),

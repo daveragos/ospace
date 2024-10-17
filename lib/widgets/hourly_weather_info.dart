@@ -47,7 +47,7 @@ class HourlyWeatherWidget extends StatelessWidget {
           SizedBox(
             height: 42.0,
             width: 42.0,
-            child: Image.network(
+            child: Image.asset(
               'https://cdn-icons-png.flaticon.com/512/116/116251.png',
               fit: BoxFit.cover,
             ),

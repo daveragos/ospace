@@ -34,10 +34,8 @@ class TempInfo extends StatelessWidget {
         SizedBox(
           width: 148,
           height: 148,
-          child: Image.network(
-            weatherIconUrl.isNotEmpty
-                ? weatherIconUrl
-                : 'https://cdn-icons-png.flaticon.com/512/116/116251.png',
+          child: Image.asset(
+            weatherIconUrl,
             fit: BoxFit.cover,
           ),
         ),

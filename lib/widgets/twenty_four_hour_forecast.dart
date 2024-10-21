@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:ospace/model/hourly_weather.dart';
 import 'package:ospace/service/weather_images.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:ospace/model/weather_data.dart'; // Adjust the import based on your file structure
+// Adjust the import based on your file structure
 class TwentyFourHourForecast extends StatelessWidget {
   final HourlyWeather hourlyForecasts;
 

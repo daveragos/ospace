@@ -1,8 +1,6 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:coingecko_api/coingecko_api.dart';
-import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:ospace/model/weather_data.dart';
 import 'package:http/http.dart' as http;

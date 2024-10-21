@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ospace/home.dart';
+import 'package:ospace/publisher/screens/home_publisher.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,7 +13,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  MaterialApp(
-      home: Home(),
+      home: HomePublisher(),
       debugShowCheckedModeBanner: false,
       title: 'Ospace',
       theme: ThemeData(

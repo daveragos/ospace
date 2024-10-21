@@ -1,6 +1,11 @@
 import 'package:any_link_preview/any_link_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:ospace/home.dart';
+import 'package:ospace/publisher/screens/home_publisher.dart';
+import 'package:ospace/publisher/screens/settings.dart';
+import 'package:ospace/screens/crypto_page.dart';
 import 'package:ospace/screens/custom_inapp_webview.dart';
+import 'package:ospace/screens/weather_page.dart';
 import 'package:ospace/service/api_helper.dart';
 import 'package:ospace/widgets/shimmer_card_widget.dart';
 import 'package:shimmer/shimmer.dart';
@@ -100,8 +105,90 @@ Future<void> loadMoreNews() async {
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.menu),
-                      SizedBox(width: 20),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) {
+                              //drawer
+                              return Drawer(
+                                elevation: 0,
+                                backgroundColor: Colors.white,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                  ),
+                                ),
+                                width: MediaQuery.of(context).size.width * 0.8,
+                                // height: MediaQuery.of(context).size.height * 0.8,
+
+                                child: ListView(
+                                  children: <Widget>[
+                                    DrawerHeader(
+                                      child: Text('OmniSpace'),
+                                      decoration: BoxDecoration(
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                    ListTile(
+                                      title: Text('Home'),
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePublisher()));
+                                      },
+                                    ),
+                                    ListTile(
+                                      title: Text('News'),
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => const NewsPage()));
+                                      },
+                                    ),
+                                    ListTile(
+                                      title: Text('Weather'),
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => const WeatherPage()));
+                                      },
+                                    ),
+                                    ListTile(
+                                      title: Text('Crypto'),
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => const CryptoPage()));
+                                      },
+                                    ),
+                                    ListTile(
+                                      title: Text('Settings'),
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => const Settings()));
+                                      },
+                                    ),
+                                    ListTile(
+                                      title: Text('Logout'),
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                        // Navigator.push(context, MaterialPageRoute(builder: (context) => const LogoutPage()));
+                                      },
+                                    ),
+                                    ListTile(
+                                      title: Text('About'),
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                        // Navigator.push(context, MaterialPageRoute(builder: (context) => const AboutPage()));
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ));
+                        },
+                        child: Icon(
+                          Icons.menu,
+                          color: Colors.grey.shade700,
+                        ),
+                      ),
                       Text('NEWS', style: TextStyle(fontSize: 20)),
                     ],
                   ),

@@ -1,7 +1,6 @@
 import 'package:any_link_preview/any_link_preview.dart';
 import 'package:flutter/material.dart';
-import 'package:ospace/home.dart';
-import 'package:ospace/publisher/screens/home_publisher.dart';
+import 'package:ospace/publisher/home_publisher.dart';
 import 'package:ospace/publisher/screens/settings.dart';
 import 'package:ospace/screens/crypto_page.dart';
 import 'package:ospace/screens/custom_inapp_webview.dart';
@@ -124,10 +123,10 @@ Future<void> loadMoreNews() async {
                                 child: ListView(
                                   children: <Widget>[
                                     DrawerHeader(
-                                      child: Text('OmniSpace'),
                                       decoration: BoxDecoration(
                                         color: Colors.blue,
                                       ),
+                                      child: Text('OmniSpace'),
                                     ),
                                     ListTile(
                                       title: Text('Home'),

@@ -1,0 +1,40 @@
+lib/
+├── home.dart
+├── main.dart
+├── model
+│   ├── crypto.dart
+│   ├── current_weather.dart
+│   ├── daily_weather.dart
+│   ├── hourly_weather.dart
+│   └── weather_data.dart
+├── news_article.dart
+├── publisher
+│   ├── home_publisher.dart
+│   ├── models
+│   ├── screens
+│   │   ├── add_post.dart
+│   │   ├── edit_post.dart
+│   │   ├── posts.dart
+│   │   ├── profile.dart
+│   │   └── settings.dart
+│   └── widgets
+├── screens
+│   ├── crypto_page.dart
+│   ├── custom_inapp_webview.dart
+│   ├── news_page.dart
+│   └── weather_page.dart
+├── service
+│   ├── api_helper.dart
+│   └── weather_images.dart
+└── widgets
+    ├── date_and_location.dart
+    ├── detail_weathe_info.dart
+    ├── hourly_weather_info.dart
+    ├── k_app_bar.dart
+    ├── seven_days_forecast.dart
+    ├── shimmer_card_widget.dart
+    ├── temp_info.dart
+    ├── twenty_four_hour_forecast.dart
+    └── weather_detail_list_info.dart
+
+9 directories, 29 files

@@ -1,7 +1,7 @@
 class CurrentWeather {
   final String time;
   final double temperature;
-  final int relativeHumidity;
+  final int? relativeHumidity;
   final int isDay;
   final double precipitation;
   final int weatherCode;

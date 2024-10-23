@@ -26,13 +26,27 @@ class HourlyWeather {
     return HourlyWeather(
       time: List<String>.from(json['time']),
       temperature: List<double>.from(json['temperature_2m']),
-      relativeHumidity: List<int>.from(json['relative_humidity_2m']),
+      relativeHumidity: json['relative_humidity_2m'] != null
+          ? List<int>.from(json['relative_humidity_2m'])
+          : [],
       precipitation: List<double>.from(json['precipitation']),
-      weatherCode: List<int>.from(json['weather_code']),
-      surfacePressure: List<double>.from(json['surface_pressure']),
-      cloudCover: List<int>.from(json['cloud_cover']),
-      visibility: List<double>.from(json['visibility']),
-      uvIndex: List<double>.from(json['uv_index']),
+      // weatherCode: List<int>.from(json['weather_code']),
+weatherCode: json['weather_code'] != null
+    ? List<int>.from(json['weather_code'])
+    : [],
+
+      surfacePressure: json['surface_pressure'] != null
+          ? List<double>.from(json['surface_pressure'])
+          : [],
+      cloudCover: json['cloud_cover'] != null
+          ? List<int>.from(json['cloud_cover'])
+          : [],
+      visibility: json['visibility'] != null
+          ? List<double>.from(json['visibility'])
+          : [],
+      uvIndex: json['uv_index'] != null
+          ? List<double>.from(json['uv_index'])
+          : []
     );
   }
 }

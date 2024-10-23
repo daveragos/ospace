@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ospace/home.dart';
 import 'package:ospace/publisher/home_publisher.dart';
 
 void main() {
@@ -12,9 +13,9 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  MaterialApp(
-      home: HomePublisher(),
+      home: Home(),
       debugShowCheckedModeBanner: false,
-      title: 'Ospace',
+      title: 'OmniSpace',
       theme: ThemeData(
         primarySwatch: Colors.teal,
         fontFamily: 'Poppins',

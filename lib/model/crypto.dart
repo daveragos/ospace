@@ -22,22 +22,21 @@ class Crypto {
     required this.high24h,
     required this.low24h,
   });
+factory Crypto.fromJson(Map<String, dynamic> json) {
+  return Crypto(
+    name: json['name'] as String? ?? 'Unknown', // Default value if null
+    symbol: json['symbol'] as String? ?? 'N/A',
+    image: json['image'] as String? ?? '',
+    currentPrice: (json['current_price'] as num?)?.toDouble() ?? 0.0, // Default value if null
+    marketCap: (json['market_cap'] as num?)?.toDouble() ?? 0.0,
+    marketCapRank: (json['market_cap_rank'] as num?)?.toDouble() ?? 0.0,
+    totalVolume: (json['total_volume'] as num?)?.toDouble() ?? 0.0,
+    priceChangePercentage24h: (json['price_change_percentage_24h'] as num?)?.toDouble() ?? 0.0,
+    high24h: (json['high_24h'] as num?)?.toDouble() ?? 0.0,
+    low24h: (json['low_24h'] as num?)?.toDouble() ?? 0.0,
+  );
+}
 
-  // Factory constructor to create a Crypto object from a JSON map
-  factory Crypto.fromJson(Map<String, dynamic> json) {
-    return Crypto(
-      name: json['name'] as String,
-      symbol: json['symbol'] as String,
-      image: json['image'] as String,
-      currentPrice: (json['current_price'] as num).toDouble(),
-      marketCap: (json['market_cap'] as num).toDouble(),
-      marketCapRank: (json['market_cap_rank'] as num).toDouble(),
-      totalVolume: (json['total_volume'] as num).toDouble(),
-      priceChangePercentage24h: (json['price_change_percentage_24h'] as num).toDouble(),
-      high24h: (json['high_24h'] as num).toDouble(),
-      low24h: (json['low_24h'] as num).toDouble(),
-    );
-  }
 
   // Method to convert Crypto object to a JSON map
   Map<String, dynamic> toJson() {

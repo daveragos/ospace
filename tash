@@ -1,0 +1,120 @@
+[33mcommit 4dc67b7c61459cb6306fa4d9a9eb5db7e9e036db[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m
+Author: RaGoose <daveyeinde@gmail.com>
+Date:   Tue Oct 22 20:11:28 2024 +0300
+
+    customized quill ui
+
+[33mcommit 814a95b0cd74ff4d7d823f9a34819415a8c436b8[m
+Author: RaGoose <daveyeinde@gmail.com>
+Date:   Tue Oct 22 14:46:32 2024 +0300
+
+    the quill widget working
+
+[33mcommit 02965c245741a36ddabacd1fb1424bb542e74033[m
+Author: RaGoose <daveyeinde@gmail.com>
+Date:   Mon Oct 21 04:17:22 2024 +0300
+
+    Update dependencies in pubspec.yaml, adding flutter_quill
+    and started working on it
+
+[33mcommit 1e1cdeed27d9daf81093f1458aa23a2d9ab9a826[m
+Author: RaGoose <daveyeinde@gmail.com>
+Date:   Fri Oct 18 02:23:06 2024 +0300
+
+    icon and name for the app
+
+[33mcommit 1da83f0ff33398094f6ef156d0394019e3db5cee[m
+Author: RaGoose <daveyeinde@gmail.com>
+Date:   Fri Oct 18 02:09:43 2024 +0300
+
+    crypto page is done(almost)
+
+[33mcommit cf935fb40c1bf3a94b017c6553af7db95815e5a9[m
+Author: RaGoose <daveyeinde@gmail.com>
+Date:   Thu Oct 17 16:10:32 2024 +0300
+
+    icons not showing
+
+[33mcommit 83d5d704c6d62266d5a6fe3992dd08d00320b45d[m
+Author: RaGoose <daveyeinde@gmail.com>
+Date:   Thu Oct 17 11:30:45 2024 +0300
+
+    weather page implemented and migrated from open-meteo without iconset
+
+[33mcommit cba31994f519451069835d7e2b1e5c15707493f2[m
+Author: RaGoose <daveyeinde@gmail.com>
+Date:   Tue Oct 15 03:44:59 2024 +0300
+
+    skeleton UI for both crypto and weather
+
+[33mcommit acee81ff6d81ba2fa93f9e0c5bf67dd5ebf820ef[m
+Author: RaGoose <daveyeinde@gmail.com>
+Date:   Tue Oct 15 00:01:23 2024 +0300
+
+    inappwebview is perfectly working
+
+[33mcommit 348898ef79a90f0ca6656bcbbb1f9462a3a7ea74[m
+Author: RaGoose <daveyeinde@gmail.com>
+Date:   Mon Oct 14 17:42:32 2024 +0300
+
+    inappwebview added
+
+[33mcommit 160f7f50d8e61e9814204d0ceddb6585e1539ae6[m
+Author: RaGoose <daveyeinde@gmail.com>
+Date:   Mon Oct 14 17:41:23 2024 +0300
+
+    Phosphor Icon package
+
+[33mcommit 21a61ff485ad379e6077d4523a3b4b5fddcecbbc[m
+Author: RaGoose <daveyeinde@gmail.com>
+Date:   Mon Oct 14 16:53:25 2024 +0300
+
+    shimmer card widget
+
+[33mcommit c27693ebc6605023f638eddb470c4e1f68aa0367[m
+Author: RaGoose <daveyeinde@gmail.com>
+Date:   Mon Oct 14 14:05:11 2024 +0300
+
+    implemented ApiHelper class
+
+[33mcommit 25d23ab76f21614990c2660e7c7f4bd0f29cbe9b[m
+Author: RaGoose <daveyeinde@gmail.com>
+Date:   Mon Oct 14 08:32:32 2024 +0300
+
+    dart fix
+
+[33mcommit 29de96b6f23564d50f86a28c166c4c2f7dc8c0b0[m
+Author: RaGoose <daveyeinde@gmail.com>
+Date:   Mon Oct 14 08:32:03 2024 +0300
+
+    changed directory
+
+[33mcommit 43e4205e00e0859e41afabc994357db59a48cbc8[m
+Author: RaGoose <daveyeinde@gmail.com>
+Date:   Thu Oct 10 00:43:24 2024 +0300
+
+    books fetched from the api
+
+[33mcommit e59b12ff62ff819d3101b2ca8d106bfb24429729[m
+Author: RaGoose <daveyeinde@gmail.com>
+Date:   Wed Oct 9 22:08:21 2024 +0300
+
+    initial commit
+
+[33mcommit f217b665234c31b347de8cdbf17fa7719b7809ee[m
+Author: RaGoose <daveyeinde@gmail.com>
+Date:   Mon Oct 7 15:07:43 2024 +0300
+
+    coingecko implemented without UI
+
+[33mcommit aba74bc66fd21f58e94b2f73b77ca0f859fc4e37[m
+Author: RaGoose <daveyeinde@gmail.com>
+Date:   Sat Oct 5 10:37:29 2024 +0300
+
+    OMW implemented on the news page for the app bar
+
+[33mcommit 2d658fd5bf9729dc6ee73a2cb354627cfbb87abe[m
+Author: RaGoose <daveyeinde@gmail.com>
+Date:   Fri Oct 4 16:50:20 2024 +0300
+
+    news page done

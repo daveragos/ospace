@@ -20,6 +20,12 @@ class MainApp extends StatelessWidget {
         primarySwatch: Colors.teal,
         fontFamily: 'Poppins',
         scaffoldBackgroundColor: Colors.teal[50],
+        primaryColor: Colors.teal,
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          secondary: Colors.teal,
+          tertiary: Colors.teal,
+
+        ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
     );

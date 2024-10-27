@@ -10,27 +10,30 @@ import 'package:ospace/publisher/screens/publisher/settings.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 
-// void main() {
-//   runApp(DevicePreview(
-//     enabled: !kReleaseMode,
-//     builder: (context) => MyApp(), // Wrap your app
-//   ),);
-// }
+void main() {
+  runApp(
+    // MyApp(),
+    DevicePreview(
+    enabled: !kReleaseMode,
+    builder: (context) => MyApp(), // Wrap your app
+  ),
+  );
+}
 
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       locale: DevicePreview.locale(context),
-//       builder: DevicePreview.appBuilder,
-//       theme: ThemeData.light(),
-//       darkTheme: ThemeData.dark(),
-//     home: const HomePublisher());
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      locale: DevicePreview.locale(context),
+      builder: DevicePreview.appBuilder,
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+    home: const HomePublisher());
+  }
+}
 
 class HomePublisher extends StatefulWidget {
   const HomePublisher({super.key});

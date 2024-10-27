@@ -1,3 +1,5 @@
+import 'package:flutter_quill/quill_delta.dart';
+
 class Post {
   Post({
     required this.title,
@@ -6,7 +8,7 @@ class Post {
   });
 
   final String title;
-  final String content;
+  final Delta content;
   final String coverImage;
 
   @override

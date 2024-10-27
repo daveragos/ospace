@@ -18,12 +18,12 @@ class _AddPostState extends State<AddPost> {
   final TextEditingController _titleController = TextEditingController();
   ValueNotifier<String> selected = ValueNotifier('All');
 
-
-File? _selectedImage;
+  File? _selectedImage;
 
   // Method to pick image from gallery
   Future<void> _pickImage() async {
-    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
         _selectedImage = File(pickedFile.path);
@@ -42,33 +42,36 @@ File? _selectedImage;
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          appBar: AppBar(
-            title: const Text('Add Post'),
-            centerTitle: true,
-            backgroundColor: Colors.transparent,
-            actions: [
-              IconButton(
-                onPressed: () async{
-                  String json =
-                      jsonEncode(_controller.document.toDelta().toJson());
-                  String plainText =
-                      jsonEncode(_controller.document.toPlainText());
-                  print(json);
-                  print(plainText);
-                  Navigator.pop(context);
-                },
-                icon: const Icon(Icons.save),
-              ),
-            ],
+      appBar: AppBar(
+        title: const Text('Add Post'),
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        actions: [
+          IconButton(
+            onPressed: () async {
+              String json = jsonEncode(_controller.document.toDelta().toJson());
+              String plainText = jsonEncode(_controller.document.toPlainText());
+              print(json);
+              print(plainText);
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.save),
           ),
-
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          PreviewPost(post: Post(
-            title: _titleController.text,
-            content: _controller.document.toPlainText(),
-            coverImage: _selectedImage!.path,
-          ));
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PreviewPost(
+                  post: Post(
+                title: _titleController.text,
+                content: _controller.document.toDelta(),
+                coverImage: _selectedImage!.path,
+              )),
+            ),
+          );
         },
         child: const Icon(Icons.remove_red_eye),
       ),
@@ -94,29 +97,31 @@ File? _selectedImage;
               height: 400,
               child: Container(
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.grey, width: 2)),
-                child: Expanded(
-                  child: editor.QuillEditor(
-                    focusNode: FocusNode(),
-                    configurations: editor.QuillEditorConfigurations(
-                      dialogTheme: editor.QuillDialogTheme(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        dialogBackgroundColor: Colors.blueGrey,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Colors.grey, width: 2),
+                ),
+                child: editor.QuillEditor(
+                  focusNode: FocusNode(),
+                  configurations: editor.QuillEditorConfigurations(
+                    dialogTheme: editor.QuillDialogTheme(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      scrollable: true,
-                      autoFocus: false,
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      expands: true,
-                      checkBoxReadOnly: false,
+                      dialogBackgroundColor: Colors.blueGrey,
                     ),
-                    controller: _controller,
-                    scrollController: ScrollController(),
+                    scrollable: true,
+                    autoFocus: false,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    expands:
+                        true, // This will let it expand within the available height
+                    checkBoxReadOnly: false,
                   ),
+                  controller: _controller,
+                  scrollController: ScrollController(),
                 ),
               ),
             ),
+
             editor.QuillToolbar.simple(
               configurations: editor.QuillSimpleToolbarConfigurations(
                 multiRowsDisplay: false,
@@ -139,21 +144,20 @@ File? _selectedImage;
             ),
             //image picker and previewer
             Row(
-                        children: [
-                          if (_selectedImage != null)
-                            Image.file(
-                              _selectedImage!,
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            ),
-                          ElevatedButton(
-                            onPressed: _pickImage,
-                            child: const Text('Pick Image'),
-                          ),
-                        ],
-                      ),
-
+              children: [
+                if (_selectedImage != null)
+                  Image.file(
+                    _selectedImage!,
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.cover,
+                  ),
+                ElevatedButton(
+                  onPressed: _pickImage,
+                  child: const Text('Pick Image'),
+                ),
+              ],
+            ),
           ],
         ),
       )),

@@ -25,6 +25,10 @@ dependencies:
   flutter_launcher_icons: ^0.14.1
   flutter_quill: ^10.8.4
   mockito: ^5.4.4
+  device_preview: ^1.2.0
+  flutter_login: ^5.0.0
+  image_picker: ^1.1.2
+  path: ^1.9.0
 
 dev_dependencies:
   flutter_test:

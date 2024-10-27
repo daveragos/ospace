@@ -1,14 +1,34 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ospace/publisher/screens/add_post.dart';
 import 'package:ospace/publisher/screens/edit_post.dart';
 import 'package:ospace/publisher/screens/posts.dart';
 import 'package:ospace/publisher/screens/profile.dart';
 import 'package:ospace/publisher/screens/settings.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 
 void main() {
-  runApp(MaterialApp(home: const HomePublisher()));
+  runApp(DevicePreview(
+    enabled: !kReleaseMode,
+    builder: (context) => MyApp(), // Wrap your app
+  ),);
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      locale: DevicePreview.locale(context),
+      builder: DevicePreview.appBuilder,
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+    home: const HomePublisher());
+  }
 }
 
 class HomePublisher extends StatefulWidget {
@@ -32,6 +52,7 @@ class _HomePublisherState extends State<HomePublisher> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: IndexedStack(
         index: selectedIndex,
         children: _pages,

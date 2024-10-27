@@ -6,7 +6,6 @@ import 'package:ospace/model/hourly_weather.dart';
 import 'package:ospace/model/weather_data.dart';
 import 'package:ospace/service/api_helper.dart';
 import 'package:ospace/service/weather_images.dart';
-import 'package:ospace/widgets/k_app_bar.dart';
 import 'package:ospace/widgets/date_and_location.dart';
 import 'package:ospace/widgets/seven_days_forecast.dart';
 import 'package:ospace/widgets/temp_info.dart';
@@ -53,7 +52,6 @@ class _WeatherPageState extends State<WeatherPage> {
             child: weatherData != null
                 ? Column(
                     children: [
-                      KAppBar(tempC: currentWeather!.temperature.toString()),
                       SizedBox(height: 40),
                       DateAndLocation(
                         date: DateFormat('yMMMd').format(DateTime.now()),

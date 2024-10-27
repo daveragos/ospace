@@ -26,7 +26,6 @@ class _AddPostState extends State<AddPost> {
     return SafeArea(
         child: Scaffold(
       body: CustomScrollView(
-        physics: NeverScrollableScrollPhysics(),
         slivers: [
           SliverFillRemaining(
               child: Padding(
@@ -61,23 +60,29 @@ class _AddPostState extends State<AddPost> {
                 SizedBox(
                   height: 20,
                 ),
-                Expanded(
-                  child: editor.QuillEditor(
-                    focusNode: FocusNode(),
-                    configurations: editor.QuillEditorConfigurations(
-                      dialogTheme: editor.QuillDialogTheme(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        dialogBackgroundColor: Colors.blueGrey,
+                Container(
+                  height: 400,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Colors.grey, width: 2)),
+                  child: Expanded(
+                    child: editor.QuillEditor(
+                      focusNode: FocusNode(),
+                      configurations: editor.QuillEditorConfigurations(
+                        dialogTheme: editor.QuillDialogTheme(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          dialogBackgroundColor: Colors.blueGrey,
+                        ),
+                        scrollable: true,
+                        autoFocus: false,
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        expands: true,
+                        checkBoxReadOnly: false,
                       ),
-                      scrollable: true,
-                      autoFocus: false,
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      expands: true,
-                      checkBoxReadOnly: false,
+                      controller: _controller,
+                      scrollController: ScrollController(),
                     ),
-                    controller: _controller,
-                    scrollController: ScrollController(),
                   ),
                 ),
                 editor.QuillToolbar.simple(

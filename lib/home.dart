@@ -1,6 +1,8 @@
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:ospace/publisher/home_publisher.dart';
+import 'package:ospace/publisher/screens/settings.dart';
 import 'package:ospace/screens/crypto_page.dart';
 import 'package:ospace/screens/news_page.dart';
 import 'package:ospace/screens/weather_page.dart';
@@ -27,6 +29,20 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        primary: true,
+        backgroundColor: Colors.transparent,
+        toolbarHeight: 80,
+        centerTitle: true,
+        title: const Text('News'),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: KActionsWidget(tempC: '27'),
+          ),
+        ],
+      ),
+      drawer: const KDrawerWidget(),
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.transparent,
         color: Colors.teal,
@@ -50,6 +66,72 @@ class _HomeState extends State<Home> {
           index: selectedIndex,
           children: _pages,
         ),
+      ),
+    );
+  }
+}
+class KDrawerWidget extends StatelessWidget {
+  const KDrawerWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        children: <Widget>[
+           DrawerHeader(
+            decoration: BoxDecoration(color: Colors.teal),
+            child: Center(child: Text('OmniSpace', style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold))),
+          ),
+          ListTile(
+            title: const Text('Publish', style: TextStyle(fontSize: 20)),
+            leading:  Icon(Icons.speaker_notes),
+
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePublisher()));
+            },
+          ),
+          ListTile(
+            title: const Text('News', style: TextStyle(fontSize: 20)),
+            leading: const Icon(Icons.newspaper),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const NewsPage()));
+            },
+          ),
+          ListTile(
+            title: const Text('Weather', style: TextStyle(fontSize: 20)),
+            leading:  Icon(PhosphorIcons.cloudSun(PhosphorIconsStyle.duotone)),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const WeatherPage()));
+            },
+          ),
+          ListTile(
+            title: const Text('Crypto', style: TextStyle(fontSize: 20)),
+            leading:  Icon(PhosphorIcons.currencyBtc(PhosphorIconsStyle.duotone)),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const CryptoPage()));
+            },
+          ),
+          ListTile(
+            title: const Text('Settings', style: TextStyle(fontSize: 20)),
+            leading:  Icon(Icons.settings),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const Settings()));
+            },
+          ),
+          ListTile(
+            title: const Text('Logout', style: TextStyle(fontSize: 20)),
+            leading:  Icon(Icons.logout),
+            onTap: () {
+              Navigator.pop(context);
+              // Navigator.push(context, MaterialPageRoute(builder: (context) => const AboutPage()));
+            },
+          ),
+        ],
       ),
     );
   }

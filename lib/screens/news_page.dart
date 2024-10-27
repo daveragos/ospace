@@ -1,13 +1,8 @@
 import 'package:any_link_preview/any_link_preview.dart';
 import 'package:flutter/material.dart';
-import 'package:ospace/publisher/home_publisher.dart';
-import 'package:ospace/publisher/screens/settings.dart';
-import 'package:ospace/screens/crypto_page.dart';
 import 'package:ospace/screens/custom_inapp_webview.dart';
-import 'package:ospace/screens/weather_page.dart';
 import 'package:ospace/service/api_helper.dart';
 import 'package:ospace/widgets/shimmer_card_widget.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:shimmer/shimmer.dart';
 
 class NewsPage extends StatefulWidget {
@@ -74,20 +69,7 @@ class _NewsPageState extends State<NewsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        primary: true,
-        backgroundColor: Colors.transparent,
-        toolbarHeight: 80,
-        centerTitle: true,
-        title: const Text('News'),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: KActionsWidget(tempC: tempC),
-          ),
-        ],
-      ),
-      drawer: const KDrawerWidget(),
+
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(12.0),
@@ -140,6 +122,9 @@ class _NewsPageState extends State<NewsPage> {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: AnyLinkPreview(
+                              showMultimedia: true,
+
+                              backgroundColor: Colors.white,
                               onTap: () {
                                 Navigator.push(
                                   context,
@@ -199,69 +184,3 @@ class KActionsWidget extends StatelessWidget {
   }
 }
 
-class KDrawerWidget extends StatelessWidget {
-  const KDrawerWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        children: <Widget>[
-           DrawerHeader(
-            decoration: BoxDecoration(color: Colors.teal),
-            child: Center(child: Text('OmniSpace', style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold))),
-          ),
-          ListTile(
-            title: const Text('Publish', style: TextStyle(fontSize: 20)),
-            leading:  Icon(Icons.speaker_notes),
-
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePublisher()));
-            },
-          ),
-          ListTile(
-            title: const Text('News', style: TextStyle(fontSize: 20)),
-            leading: const Icon(Icons.newspaper),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const NewsPage()));
-            },
-          ),
-          ListTile(
-            title: const Text('Weather', style: TextStyle(fontSize: 20)),
-            leading:  Icon(PhosphorIcons.cloudSun(PhosphorIconsStyle.duotone)),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const WeatherPage()));
-            },
-          ),
-          ListTile(
-            title: const Text('Crypto', style: TextStyle(fontSize: 20)),
-            leading:  Icon(PhosphorIcons.currencyBtc(PhosphorIconsStyle.duotone)),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const CryptoPage()));
-            },
-          ),
-          ListTile(
-            title: const Text('Settings', style: TextStyle(fontSize: 20)),
-            leading:  Icon(Icons.settings),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const Settings()));
-            },
-          ),
-          ListTile(
-            title: const Text('Logout', style: TextStyle(fontSize: 20)),
-            leading:  Icon(Icons.logout),
-            onTap: () {
-              Navigator.pop(context);
-              // Navigator.push(context, MaterialPageRoute(builder: (context) => const AboutPage()));
-            },
-          ),
-        ],
-      ),
-    );
-  }
-}

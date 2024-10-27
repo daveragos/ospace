@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ospace/home.dart';
-import 'package:ospace/publisher/home_publisher.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,15 +16,9 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'OmniSpace',
       theme: ThemeData(
-        primarySwatch: Colors.teal,
-        fontFamily: 'Poppins',
-        scaffoldBackgroundColor: Colors.teal[50],
-        primaryColor: Colors.teal,
-        colorScheme: ColorScheme.fromSwatch().copyWith(
-          secondary: Colors.teal,
-          tertiary: Colors.teal,
+        //white
+        primarySwatch: Colors.grey,
 
-        ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
     );

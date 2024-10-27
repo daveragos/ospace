@@ -116,25 +116,6 @@ class _CryptoPageState extends State<CryptoPage> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                // Header section
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Icon(Icons.menu),
-                    SizedBox(width: 20),
-                    Text('C R Y P T O', style: TextStyle(fontSize: 20)),
-                    Column(
-                      children: [
-                        Text(
-                            '  ${formatNumber(selectedCrypto?.currentPrice ?? 0)}',
-                            style: TextStyle(fontSize: 20)),
-                        Text(selectedCrypto?.symbol.toUpperCase() ?? 'BTC',
-                            style: TextStyle(fontSize: 20)),
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(height: 40),
 
                 // Detailed container for the selected coin
                 if (selectedCrypto != null)

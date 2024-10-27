@@ -6,6 +6,11 @@ import 'package:ospace/publisher/screens/posts.dart';
 import 'package:ospace/publisher/screens/profile.dart';
 import 'package:ospace/publisher/screens/settings.dart';
 
+
+void main() {
+  runApp(MaterialApp(home: const HomePublisher()));
+}
+
 class HomePublisher extends StatefulWidget {
   const HomePublisher({super.key});
 

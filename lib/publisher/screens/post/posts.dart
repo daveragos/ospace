@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ospace/publisher/screens/add_post.dart';
+import 'package:ospace/publisher/screens/post/add_post.dart';
 
 class Posts extends StatefulWidget {
   const Posts({super.key});

@@ -26,6 +26,11 @@ class DailyWeather {
       sunrise: List<String>.from(json['sunrise']),
       sunset: List<String>.from(json['sunset']),
       uvIndexMax: List<double>.from(json['uv_index_max']),
+      //https://api.open-meteo.com/v1/forecast?latitude=9.0107934&longitude=38.7612525&
+      //daily=uv_index_max,weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,sunset,sunrise&
+      //current=temperature_2m,relative_humidity_2m,precipitation,is_day,weather_code&
+      //hourly=temperature_2m,weather_code,precipitation,uv_index,visibility,precipitation_probability,cloud_cover,relative_humidity_2m,surface_pressure
+      //daily:weather_code,tempreture_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max
     );
   }
 }

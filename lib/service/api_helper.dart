@@ -102,7 +102,7 @@ class ApiHelper {
 
   Future<WeatherData?> fetchWeatherData() async {
     final response = await httpClient.get(Uri.parse(
-      'https://api.open-meteo.com/v1/forecast?latitude=13.4967&longitude=39.4753&current=temperature_2m,precipitation,is_day,weather_code&hourly=temperature_2m,precipitation_probability&timezone=Africa%2FCairo'));
+      'https://api.open-meteo.com/v1/forecast?latitude=9.0107934&longitude=38.7612525&daily=uv_index_max,weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,sunset,sunrise&current=temperature_2m,relative_humidity_2m,precipitation,is_day,weather_code&hourly=temperature_2m,weather_code,precipitation,uv_index,visibility,precipitation_probability,cloud_cover,relative_humidity_2m,surface_pressure'));
 
     if (response.statusCode == 200) {
       return WeatherData.fromJson(json.decode(response.body));

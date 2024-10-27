@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as editor;
 import 'package:image_picker/image_picker.dart';
 import 'package:ospace/publisher/models/post.dart';
-import 'package:ospace/publisher/screens/preview_post.dart';
+import 'package:ospace/publisher/screens/post/preview_post.dart';
 
 class AddPost extends StatefulWidget {
   const AddPost({super.key});
@@ -90,28 +90,30 @@ File? _selectedImage;
             SizedBox(
               height: 20,
             ),
-            Container(
+            SizedBox(
               height: 400,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.grey, width: 2)),
-              child: Expanded(
-                child: editor.QuillEditor(
-                  focusNode: FocusNode(),
-                  configurations: editor.QuillEditorConfigurations(
-                    dialogTheme: editor.QuillDialogTheme(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      dialogBackgroundColor: Colors.blueGrey,
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Colors.grey, width: 2)),
+                child: Expanded(
+                  child: editor.QuillEditor(
+                    focusNode: FocusNode(),
+                    configurations: editor.QuillEditorConfigurations(
+                      dialogTheme: editor.QuillDialogTheme(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        dialogBackgroundColor: Colors.blueGrey,
+                      ),
+                      scrollable: true,
+                      autoFocus: false,
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      expands: true,
+                      checkBoxReadOnly: false,
                     ),
-                    scrollable: true,
-                    autoFocus: false,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    expands: true,
-                    checkBoxReadOnly: false,
+                    controller: _controller,
+                    scrollController: ScrollController(),
                   ),
-                  controller: _controller,
-                  scrollController: ScrollController(),
                 ),
               ),
             ),

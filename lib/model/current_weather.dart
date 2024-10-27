@@ -23,6 +23,8 @@ class CurrentWeather {
       isDay: json['is_day'],
       precipitation: json['precipitation'],
       weatherCode: json['weather_code'],
+      //current=temperature_2m,relative_humidity_2m,precipitation,is_day,weather_code&
+
     );
   }
 }

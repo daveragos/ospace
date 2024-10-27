@@ -2,7 +2,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:ospace/publisher/home_publisher.dart';
-import 'package:ospace/publisher/screens/settings.dart';
+import 'package:ospace/publisher/screens/publisher/settings.dart';
 import 'package:ospace/screens/crypto_page.dart';
 import 'package:ospace/screens/news_page.dart';
 import 'package:ospace/screens/weather_page.dart';

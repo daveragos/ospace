@@ -2,11 +2,11 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:ospace/publisher/screens/add_post.dart';
-import 'package:ospace/publisher/screens/edit_post.dart';
-import 'package:ospace/publisher/screens/posts.dart';
-import 'package:ospace/publisher/screens/profile.dart';
-import 'package:ospace/publisher/screens/settings.dart';
+import 'package:ospace/publisher/screens/post/add_post.dart';
+import 'package:ospace/publisher/screens/post/edit_post.dart';
+import 'package:ospace/publisher/screens/post/posts.dart';
+import 'package:ospace/publisher/screens/publisher/profile.dart';
+import 'package:ospace/publisher/screens/publisher/settings.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 

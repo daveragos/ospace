@@ -37,3 +37,4 @@ weatherCode: List<int>.from(json['weather_code']),
     );
   }
 }
+      //hourly=temperature_2m,weather_code,precipitation,uv_index,visibility,precipitation_probability,cloud_cover,relative_humidity_2m,surface_pressure

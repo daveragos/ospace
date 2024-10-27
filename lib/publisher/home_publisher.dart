@@ -10,26 +10,27 @@ import 'package:ospace/publisher/screens/settings.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 
-void main() {
-  runApp(DevicePreview(
-    enabled: !kReleaseMode,
-    builder: (context) => MyApp(), // Wrap your app
-  ),);
-}
+// void main() {
+//   runApp(DevicePreview(
+//     enabled: !kReleaseMode,
+//     builder: (context) => MyApp(), // Wrap your app
+//   ),);
+// }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      locale: DevicePreview.locale(context),
-      builder: DevicePreview.appBuilder,
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
-    home: const HomePublisher());
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       locale: DevicePreview.locale(context),
+//       builder: DevicePreview.appBuilder,
+//       theme: ThemeData.light(),
+//       darkTheme: ThemeData.dark(),
+//     home: const HomePublisher());
+//   }
+// }
 
 class HomePublisher extends StatefulWidget {
   const HomePublisher({super.key});
@@ -44,8 +45,8 @@ class _HomePublisherState extends State<HomePublisher> {
   final List<Widget> _pages = [
     const Profile(),
     const Posts(),
-    const AddPost(),
-    const EditPost(),
+    // const AddPost(),
+    // const EditPost(),
     const Settings(),
   ];
 
@@ -65,10 +66,10 @@ class _HomePublisherState extends State<HomePublisher> {
         animationDuration: Duration(milliseconds: 300),
         index: selectedIndex,
         items: <Widget>[
-          Icon(Icons.person, size: 30),
+          Icon(PhosphorIcons.graph(), size: 30),
           Icon(Icons.list, size: 30),
-          Icon(Icons.add, size: 30),
-          Icon(Icons.edit, size: 30),
+          // Icon(Icons.add, size: 30),
+          // Icon(Icons.edit, size: 30),
           Icon(Icons.settings, size: 30),
         ],
         onTap: (index) {

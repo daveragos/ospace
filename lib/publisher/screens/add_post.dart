@@ -67,7 +67,7 @@ File? _selectedImage;
           PreviewPost(post: Post(
             title: _titleController.text,
             content: _controller.document.toPlainText(),
-            coverImage: 'https://picsum.photos/id/10/200/300',
+            coverImage: _selectedImage!.path,
           ));
         },
         child: const Icon(Icons.remove_red_eye),

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ospace/publisher/models/post.dart';
@@ -33,8 +35,11 @@ class _PreviewPostState extends State<PreviewPost> {
           padding: const EdgeInsets.all(12.0),
           child: Column(
             children: [
-              Image.asset(
-                widget.post.coverImage
+              Image.file(
+                File(widget.post.coverImage),
+                width: 200,
+                height: 200,
+                fit: BoxFit.cover,
               ),
               Text(
                 widget.post.title,

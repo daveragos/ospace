@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:ospace/model/crypto.dart';
 import 'package:ospace/service/api_helper.dart';
 import 'package:ospace/screens/crypto_page.dart';
 

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as editor;
 import 'package:image_picker/image_picker.dart';
+import 'package:logger/logger.dart';
 import 'package:ospace/publisher/models/post.dart';
 import 'package:ospace/publisher/screens/post/preview_post.dart';
 
@@ -51,8 +52,8 @@ class _AddPostState extends State<AddPost> {
             onPressed: () async {
               String json = jsonEncode(_controller.document.toDelta().toJson());
               String plainText = jsonEncode(_controller.document.toPlainText());
-              print(json);
-              print(plainText);
+              Logger().d(json);
+              Logger().d(plainText);
               Navigator.pop(context);
             },
             icon: const Icon(Icons.save),

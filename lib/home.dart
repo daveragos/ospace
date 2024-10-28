@@ -2,6 +2,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:ospace/publisher/home_publisher.dart';
+import 'package:ospace/publisher/screens/auth/signin.dart';
 import 'package:ospace/publisher/screens/publisher/settings.dart';
 import 'package:ospace/screens/crypto_page.dart';
 import 'package:ospace/screens/news_page.dart';
@@ -88,7 +89,7 @@ class KDrawerWidget extends StatelessWidget {
 
             onTap: () {
               Navigator.pop(context);
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePublisher()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
             },
           ),
           ListTile(

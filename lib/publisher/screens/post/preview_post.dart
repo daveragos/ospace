@@ -62,14 +62,29 @@ class _PreviewPostState extends State<PreviewPost> {
               const SizedBox(height: 10),
               Text(
                 widget.post.title,
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 20),
-              editor.QuillEditor.basic(
-                controller: _controller,
-                configurations: editor.QuillEditorConfigurations(checkBoxReadOnly: true),
-                // readOnly: true, // Makes the editor non-editable in preview
-              ),
+              ShaderMask(
+                shaderCallback: ((bounds) {
+                  return const LinearGradient(
+                      begin: Alignment.center,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color.fromARGB(189, 218, 218, 252),
+                        Color.fromARGB(189, 218, 218, 252),
+                        Colors.transparent
+                      ]).createShader(bounds);
+                }),
+                child: editor.QuillEditor(
+                  controller: _controller,
+                  scrollController: ScrollController(),
+                  focusNode: FocusNode(
+                    canRequestFocus: false,
+                  ),
+                ),
+              )
             ],
           ),
         ),

@@ -15,6 +15,7 @@ class _PostsState extends State<Posts> {
   List<LocalNews> filteredNewsList = [];
   bool isLoading = true;
   String selectedStatus = 'ALL'; // Default selected status
+  List<String> convertedImages = [];
 
   @override
   void initState() {
@@ -28,6 +29,7 @@ class _PostsState extends State<Posts> {
       setState(() {
         newsList = fetchedNews;
         filteredNewsList = fetchedNews; // Initially, all news are displayed
+        convertedImages = fetchedNews.map((news) => news.coverImage!.replaceFirst('localhost', '192.168.43.131')).toList();
         isLoading = false;
       });
     } catch (error) {
@@ -53,6 +55,19 @@ class _PostsState extends State<Posts> {
             .toList();
       }
     });
+  }
+
+  Color getStatusColor(String status) {
+    switch (status) {
+      case 'APPROVED':
+        return Colors.green; // Green for approved
+      case 'PENDING':
+        return Colors.amber; // Amber for pending
+      case 'SUSPENDED':
+        return Colors.red; // Red for suspended
+      default:
+        return Colors.grey; // Grey for default
+    }
   }
 
   @override
@@ -100,47 +115,45 @@ class _PostsState extends State<Posts> {
                   itemCount: filteredNewsList.length,
                   itemBuilder: (context, index) {
                     final news = filteredNewsList[index];
-                    return ListTile(
-                      leading: Container(
-                        height: 100,
-                        width: 100,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: ListTile(
+                        leading: Container(
+                          height: 100,
+                          width: 100,
+                          child: Image.network(convertedImages[index]),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                         ),
-                        child: Image.network(
-                          news.coverImage!,
-                          fit: BoxFit.cover,
-                          loadingBuilder: (BuildContext context, Widget child,
-                              ImageChunkEvent? loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return Center(
-                              child: CircularProgressIndicator(
-                                value: loadingProgress.expectedTotalBytes !=
-                                        null
-                                    ? loadingProgress.cumulativeBytesLoaded /
-                                        (loadingProgress.expectedTotalBytes ??
-                                            1)
-                                    : null,
-                              ),
-                            );
-                          },
-                          errorBuilder: (BuildContext context, Object error,
-                              StackTrace? stackTrace) {
-                            return Container(
+                        trailing: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0, vertical: 4.0),
                               decoration: BoxDecoration(
-                                color: Colors.grey,
-                                borderRadius: BorderRadius.circular(10),
+                                color: getStatusColor(news.status!),
+                                borderRadius: BorderRadius.circular(12),
                               ),
-                              child: const Icon(Icons.error), // Fallback icon
-                            );
-                          },
+                              child: Text(
+                                news.status!,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(child: Text(news.title!)),
+                            // Badge or colored indicator for status
+
+                          ],
                         ),
+                        subtitle: Text('${news.reports!.length} reports'),
+                        onTap: () {
+                          print(news.content);
+                        },
                       ),
-                      title: Text(news.title!),
-                      subtitle: Text('Image: ${news.coverImage}'),
-                      onTap: () {
-                        print(news.coverImage);
-                      },
                     );
                   },
                 ),

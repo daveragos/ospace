@@ -12,8 +12,10 @@ class Posts extends StatefulWidget {
 
 class _PostsState extends State<Posts> {
   List<LocalNews> newsList = [];
+  List<LocalNews> filteredNewsList = [];
   bool isLoading = true;
-  List<String> imageLinks = [];
+  String selectedStatus = 'ALL'; // Default selected status
+
   @override
   void initState() {
     super.initState();
@@ -25,7 +27,7 @@ class _PostsState extends State<Posts> {
       final fetchedNews = await NewsService().getNewsByPublisher("dave_ragos");
       setState(() {
         newsList = fetchedNews;
-        imageLinks = fetchedNews.map((e) => e.coverImage!).toList();
+        filteredNewsList = fetchedNews; // Initially, all news are displayed
         isLoading = false;
       });
     } catch (error) {
@@ -39,11 +41,44 @@ class _PostsState extends State<Posts> {
     }
   }
 
+  void filterNews(String status) {
+    setState(() {
+      selectedStatus = status;
+
+      if (status == 'ALL') {
+        filteredNewsList = newsList; // Show all news
+      } else {
+        filteredNewsList = newsList
+            .where((news) => news.status == status) // Filter based on status
+            .toList();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Posts'),
+        actions: [
+          // Add a dropdown for filtering
+          DropdownButton<String>(
+            value: selectedStatus,
+            icon: const Icon(Icons.filter_list),
+            items: <String>['ALL', 'APPROVED', 'PENDING', 'SUSPENDED']
+                .map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+            onChanged: (String? newValue) {
+              if (newValue != null) {
+                filterNews(newValue);
+              }
+            },
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
@@ -59,12 +94,12 @@ class _PostsState extends State<Posts> {
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
-          : newsList.isEmpty
+          : filteredNewsList.isEmpty
               ? const Center(child: Text('No posts available'))
               : ListView.builder(
-                  itemCount: newsList.length,
+                  itemCount: filteredNewsList.length,
                   itemBuilder: (context, index) {
-                    final news = newsList[index];
+                    final news = filteredNewsList[index];
                     return ListTile(
                       leading: Container(
                         height: 100,
@@ -73,7 +108,7 @@ class _PostsState extends State<Posts> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Image.network(
-                          imageLinks[index],
+                          news.coverImage!,
                           fit: BoxFit.cover,
                           loadingBuilder: (BuildContext context, Widget child,
                               ImageChunkEvent? loadingProgress) {

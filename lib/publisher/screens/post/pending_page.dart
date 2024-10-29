@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:ospace/publisher/controllers/auth/auth.dart';
+import 'package:ospace/publisher/screens/auth/signin.dart';
 
 class PublisherStatusScreen extends StatelessWidget {
   final String userName;
   final String status;
 
   const PublisherStatusScreen({
-    Key? key,
+    super.key,
     required this.userName,
     required this.status,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -53,27 +55,19 @@ class PublisherStatusScreen extends StatelessWidget {
                 style: const TextStyle(fontSize: 16, color: Colors.black54),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 30),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context); // Go back to the previous screen
-                },
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
-                  child: Text(
-                    'Back to Home',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ),
-              ),
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async{
+          await AuthService().logout();
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
+            return const LoginScreen();
+          }));
+        },
+        backgroundColor: Colors.red,
+        child: const Icon(Icons.logout),
       ),
     );
   }

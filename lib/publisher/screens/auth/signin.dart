@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ospace/publisher/home_publisher.dart';
 import 'package:ospace/publisher/screens/auth/signup.dart';
 import 'package:ospace/publisher/controllers/auth/auth.dart';
+import 'package:ospace/publisher/screens/post/pending_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,6 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool _obscurePassword = true; // To manage password visibility
 
   Future<void> _login() async {
     if (_formKey.currentState!.validate()) {
@@ -39,7 +41,20 @@ class _LoginScreenState extends State<LoginScreen> {
         password: _passwordController.text,
       );
       if (response != null) {
-        Navigator.of(context).pushReplacement( MaterialPageRoute(builder: (context) =>  HomePublisher()));
+        String userName = response['data']['userName']!;
+        String status = response['data']['status']!;
+        if (status == 'PENDING' || status == 'SUSPENDED') {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => PublisherStatusScreen(
+              status: status,
+              userName: userName,
+            )),
+          );
+        } else {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => HomePublisher()),
+          );
+        }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Login failed'),
@@ -80,15 +95,25 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextFormField(
                         controller: _emailController,
                         decoration: InputDecoration(labelText: 'Username'),
-                        validator: (value) =>
-                            value!.isEmpty ? 'Username required' : null,
+                        validator: (value) => value!.isEmpty ? 'Username required' : null,
                       ),
                       TextFormField(
                         controller: _passwordController,
-                        decoration: InputDecoration(labelText: 'Password'),
-                        obscureText: true,
-                        validator: (value) =>
-                            value!.isEmpty ? 'Password required' : null,
+                        decoration: InputDecoration(
+                          labelText: 'Password',
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _obscurePassword = !_obscurePassword;
+                              });
+                            },
+                          ),
+                        ),
+                        obscureText: _obscurePassword,
+                        validator: (value) => value!.isEmpty ? 'Password required' : null,
                       ),
                       const SizedBox(height: 20),
                       ElevatedButton(
@@ -96,8 +121,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text('Login'),
                       ),
                       TextButton(
-                        onPressed: () =>
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  SignupScreen())),
+                        onPressed: () => Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => SignupScreen()),
+                        ),
                         child: Text('Don’t have an account? Sign Up'),
                       ),
                     ],

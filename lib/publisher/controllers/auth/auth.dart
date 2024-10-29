@@ -55,7 +55,7 @@ class AuthService {
       if (response.statusCode == 201) {
         final data = json.decode(responseBody);
         // Save the token after successful signup
-        await SharedStorage().saveToken('auth_token', data.toString());  // Assuming the token is returned in the response
+        await SharedStorage().saveToken('auth_token', json.encode(data['data']));  // Assuming the token is returned in the response
         return data;
       } else {
         print('Sent data: ${request.fields}');
@@ -96,5 +96,24 @@ class AuthService {
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('auth_token');  // Remove the token on logout
+  }
+
+  Future<Map<String, dynamic>?> getPublisherByUserName({
+    required String userName,
+  }) async {
+    final Uri url = Uri.parse('$baseUrl/api/get-publisher-by-userName');
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'userName': userName}),
+    );
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      return data;
+    } else {
+      print('Failed to get user info ${response.body} which is ${response.headersSplitValues['Authorization']}');
+      throw Exception('Failed to get user info');
+    }
   }
 }

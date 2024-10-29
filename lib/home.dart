@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:ospace/publisher/controllers/auth/auth.dart';
 import 'package:ospace/publisher/controllers/store/shared_storage.dart';
 import 'package:ospace/publisher/home_publisher.dart';
 import 'package:ospace/publisher/screens/auth/signin.dart';
@@ -46,7 +47,9 @@ class _HomeState extends State<Home> {
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: KActionsWidget(tempC: '27'),
+            child: KActionsWidget(
+              tempC: '27',
+            ),
           ),
         ],
       ),
@@ -82,9 +85,14 @@ class _HomeState extends State<Home> {
   }
 }
 
-class KDrawerWidget extends StatelessWidget {
+class KDrawerWidget extends StatefulWidget {
   const KDrawerWidget({super.key});
 
+  @override
+  State<KDrawerWidget> createState() => _KDrawerWidgetState();
+}
+
+class _KDrawerWidgetState extends State<KDrawerWidget> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -100,34 +108,47 @@ class KDrawerWidget extends StatelessWidget {
                         fontWeight: FontWeight.bold))),
           ),
           ListTile(
-            title: const Text('Publish', style: TextStyle(fontSize: 20)),
-            leading: Icon(Icons.speaker_notes),
-            onTap: () async {
-              Navigator.pop(context);
-              bool loggedIn = await SharedStorage().containsKey('auth_token');
-              if (loggedIn) {
-                String? userData = await SharedStorage().getToken('auth_token');
-                Map<String, dynamic> decodedUserData = json.decode(userData!);
-                String username = decodedUserData['userName']!;
-                String status = decodedUserData['status']!;
+              title: const Text('Publish', style: TextStyle(fontSize: 20)),
+              leading: Icon(Icons.speaker_notes),
+              onTap: () async {
+  // Perform login and status checks
+  bool loggedIn = await SharedStorage().containsKey('auth_token');
+  if (loggedIn) {
+    String? userData = await SharedStorage().getToken('auth_token');
+    Map<String, dynamic> decodedUserData = json.decode(userData!);
+    String username = decodedUserData['userName']!;
+    Map<String, dynamic>? publisher = await AuthService().getPublisherByUserName(userName: username);
+    String status = publisher!['data']['status']!;
 
-                if (status == 'PENDING' || status == 'SUSPENDED') {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PublisherStatusScreen(
-                            status: status,
-                            userName: username,
-                              )));
-                } else
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => HomePublisher()));
-              } else {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()));
-              }
-            },
+    // Close the drawer and navigate based on the user's status
+    if (status == 'PENDING' || status == 'SUSPENDED') {
+      Navigator.pop(context); // Ensure drawer is closed before navigating
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PublisherStatusScreen(
+            status: status,
+            userName: username,
           ),
+        ),
+      );
+    } else {
+      Navigator.pop(context); // Ensure drawer is closed before navigating
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomePublisher()),
+      );
+    }
+  } else {
+    if (!mounted) return;
+    Navigator.pop(context); // Ensure drawer is closed before navigating
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => LoginScreen()),
+    );
+  }
+}
+),
           ListTile(
             title: const Text('News', style: TextStyle(fontSize: 20)),
             leading: const Icon(Icons.newspaper),

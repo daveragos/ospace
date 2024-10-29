@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:ospace/publisher/screens/auth/signin.dart';
+import 'package:ospace/publisher/screens/controllers/auth/auth.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -10,7 +12,15 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  final AuthService _authService = AuthService();
   final _formKey = GlobalKey<FormState>();
+
+  final _userNameController = TextEditingController();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
   final _imagePicker = ImagePicker();
   XFile? _profileImage;
 
@@ -20,6 +30,32 @@ class _SignupScreenState extends State<SignupScreen> {
       setState(() {
         _profileImage = pickedFile;
       });
+    }
+  }
+
+  Future<void> _signUp() async {
+    if (_formKey.currentState!.validate() && _profileImage != null) {
+      final response = await _authService.signUp(
+        userName: _userNameController.text,
+        firstName: _firstNameController.text,
+        lastName: _lastNameController.text,
+        email: _emailController.text,
+        phone: _phoneController.text,
+        password: _passwordController.text,
+        profilePicturePath: _profileImage!.path,
+      );
+      if (response != null) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(response['message']),
+        ));
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => LoginScreen()),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Signup failed'),
+        ));
+      }
     }
   }
 
@@ -64,24 +100,43 @@ class _SignupScreenState extends State<SignupScreen> {
               key: _formKey,
               child: Column(
                 children: [
-                  _buildTextField(label: 'Username', icon: Icons.person),
-                  const SizedBox(height: 20),
-                  _buildTextField(label: 'First Name', icon: Icons.account_circle),
-                  const SizedBox(height: 20),
-                  _buildTextField(label: 'Last Name', icon: Icons.account_circle),
+                  _buildTextField(
+                      controller: _userNameController,
+                      label: 'Username',
+                      icon: Icons.person),
                   const SizedBox(height: 20),
                   _buildTextField(
-                      label: 'Phone Number', icon: Icons.phone, inputType: TextInputType.phone),
+                      controller: _firstNameController,
+                      label: 'First Name',
+                      icon: Icons.account_circle),
                   const SizedBox(height: 20),
                   _buildTextField(
-                      label: 'Email', icon: Icons.email, inputType: TextInputType.emailAddress),
+                      controller: _lastNameController,
+                      label: 'Last Name',
+                      icon: Icons.account_circle),
                   const SizedBox(height: 20),
-                  _buildTextField(label: 'Password', icon: Icons.lock, isPassword: true),
+                  _buildTextField(
+                      controller: _phoneController,
+                      label: 'Phone Number',
+                      icon: Icons.phone,
+                      inputType: TextInputType.phone),
+                  const SizedBox(height: 20),
+                  _buildTextField(
+                      controller: _emailController,
+                      label: 'Email',
+                      icon: Icons.email,
+                      inputType: TextInputType.emailAddress),
+                  const SizedBox(height: 20),
+                  _buildTextField(
+                      controller: _passwordController,
+                      label: 'Password',
+                      icon: Icons.lock,
+                      isPassword: true),
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState?.validate() ?? false) {
-                        // Sign-up logic
+                        _signUp();
                       }
                     },
                     style: ElevatedButton.styleFrom(
@@ -106,12 +161,14 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   Widget _buildTextField({
+    required TextEditingController controller,
     required String label,
     required IconData icon,
     bool isPassword = false,
     TextInputType inputType = TextInputType.text,
   }) {
     return TextFormField(
+      controller: controller,
       obscureText: isPassword,
       keyboardType: inputType,
       decoration: InputDecoration(

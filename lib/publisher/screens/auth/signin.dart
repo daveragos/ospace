@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ospace/publisher/home_publisher.dart';
 import 'package:ospace/publisher/screens/auth/signup.dart';
+import 'package:ospace/publisher/screens/controllers/auth/auth.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,115 +14,98 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const LoginScreen(),
+      home:  LoginScreen(),
     );
   }
 }
 
-
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
-  final Duration loginTime = const Duration(milliseconds: 2250);
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
 
-  Future<String?> _authUser(String email, String password) async {
-    // Replace with your authentication logic
-    await Future.delayed(loginTime);
-    if (email == 'test@example.com' && password == 'password') {
-      return null;
+class _LoginScreenState extends State<LoginScreen> {
+  final AuthService _authService = AuthService();
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  Future<void> _login() async {
+    if (_formKey.currentState!.validate()) {
+      final response = await _authService.login(
+        username: _emailController.text,
+        password: _passwordController.text,
+      );
+      if (response != null) {
+        Navigator.of(context).pushReplacement( MaterialPageRoute(builder: (context) =>  HomePublisher()));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Login failed'),
+        ));
+      }
     }
-    return 'Invalid email or password';
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade200,
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/img.png',
-                width: 100,
-                height: 100,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(height: 100),
+            Image.asset('assets/img.png', width: 100, height: 100),
+            Text(
+              'OmniSpace',
+              style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              'Welcome Back',
+              style: TextStyle(fontSize: 24),
+            ),
+            const SizedBox(height: 20),
+            Card(
+              margin: const EdgeInsets.all(20),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
               ),
-              const SizedBox(height: 20),
-              const Text(
-                'OmniSpace',
-                style: TextStyle(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
-              ),
-              const SizedBox(height: 40),
-              Card(
-                elevation: 4.0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Form(
+                  key: _formKey,
                   child: Column(
                     children: [
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: 'Email',
-                          prefixIcon: Icon(Icons.email),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
+                      TextFormField(
+                        controller: _emailController,
+                        decoration: InputDecoration(labelText: 'Username'),
+                        validator: (value) =>
+                            value!.isEmpty ? 'Username required' : null,
                       ),
-                      const SizedBox(height: 20),
-                      TextField(
+                      TextFormField(
+                        controller: _passwordController,
+                        decoration: InputDecoration(labelText: 'Password'),
                         obscureText: true,
-                        decoration: InputDecoration(
-                          labelText: 'Password',
-                          prefixIcon: Icon(Icons.lock),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
+                        validator: (value) =>
+                            value!.isEmpty ? 'Password required' : null,
                       ),
                       const SizedBox(height: 20),
                       ElevatedButton(
-                        onPressed: () {
-                          // Handle login action
-                        },
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 16, horizontal: 32),
-                        ),
-                        child: const Text(
-                          'Login',
-                          style: TextStyle(fontSize: 18),
-                        ),
+                        onPressed: _login,
+                        child: Text('Login'),
                       ),
-                      const SizedBox(height: 10),
                       TextButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const SignupScreen(),
-                          ));
-                        },
-                        child: const Text(
-                          'Don’t have an account? Sign Up',
-                          style: TextStyle(color: Colors.blueAccent),
-                        ),
+                        onPressed: () =>
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  SignupScreen())),
+                        child: Text('Don’t have an account? Sign Up'),
                       ),
                     ],
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ospace/publisher/screens/auth/signin.dart';
-import 'package:ospace/publisher/screens/controllers/auth/auth.dart';
+import 'package:ospace/publisher/controllers/auth/auth.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});

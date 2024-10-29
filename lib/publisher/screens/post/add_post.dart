@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as editor;
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
+import 'package:ospace/model/news.dart';
+import 'package:ospace/publisher/controllers/post/post.dart';
 import 'package:ospace/publisher/models/post.dart';
 import 'package:ospace/publisher/screens/post/preview_post.dart';
 
@@ -54,6 +56,14 @@ class _AddPostState extends State<AddPost> {
               String plainText = jsonEncode(_controller.document.toPlainText());
               Logger().d(json);
               Logger().d(plainText);
+              LocalNews news = LocalNews(
+                title: _titleController.text,
+                content: _controller.document.toDelta().toJson().toString(),
+                coverImage: _selectedImage!.path,
+              );
+              Logger().d(news.toJson().toString());
+              LocalNews postedNews = await News().postNews(news.title!, news.content!, news.coverImage!);
+              Logger().d(postedNews.toJson().toString());
               Navigator.pop(context);
             },
             icon: const Icon(Icons.save),

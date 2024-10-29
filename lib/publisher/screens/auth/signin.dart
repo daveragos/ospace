@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ospace/publisher/home_publisher.dart';
 import 'package:ospace/publisher/screens/auth/signup.dart';
-import 'package:ospace/publisher/screens/controllers/auth/auth.dart';
+import 'package:ospace/publisher/controllers/auth/auth.dart';
 
 void main() {
   runApp(const MyApp());

@@ -1,23 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:ospace/publisher/controllers/store/shared_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   final String baseUrl = 'http://192.168.43.131:3000';
-
-  // Method to save the token to shared preferences
-  Future<void> _saveToken(String token) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('auth_token', token);
-  }
-
-  // Method to retrieve the token from shared preferences
-  Future<String?> _getToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('auth_token');
-  }
-
   // Signup function to create a new publisher
   Future<Map<String, dynamic>?> signUp({
     required String userName,
@@ -67,7 +55,7 @@ class AuthService {
       if (response.statusCode == 201) {
         final data = json.decode(responseBody);
         // Save the token after successful signup
-        await _saveToken(data['token']);  // Assuming the token is returned in the response
+        await SharedStorage().saveToken('auth_token', data.toString());  // Assuming the token is returned in the response
         return data;
       } else {
         print('Sent data: ${request.fields}');
@@ -95,7 +83,8 @@ class AuthService {
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       // Save the token after successful login
-      await _saveToken(data.toString());  // Assuming the token is returned in the response
+
+      await SharedStorage().saveToken('auth_token', json.encode(data['data']));
       return data;
     } else {
       print('Login failed: ${response.statusCode} - ${response.body}');

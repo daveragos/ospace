@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ospace/publisher/controllers/auth/auth.dart';
 import 'package:ospace/publisher/screens/post/add_post.dart';
 
 class Posts extends StatefulWidget {
@@ -16,7 +17,8 @@ class _PostsState extends State<Posts> {
         title: const Text('Posts'),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
+          // await AuthService().logout();
           Navigator.push(
             context,
             MaterialPageRoute(

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:ospace/model/news.dart';
+import 'package:ospace/model/report.dart';
 import 'package:ospace/publisher/controllers/store/shared_storage.dart';
 
 class NewsService {
@@ -89,4 +90,66 @@ class NewsService {
   }
 }
 
+
+Future<List<LocalNews>> getAllNews() async {
+  String url = '$baseUrl/all-news';
+
+  try {
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      Logger().i('News retrieved successfully');
+List newsList = jsonDecode(response.body)['data'];
+final localNewsList = newsList
+    .where((json) => json['status']?.toLowerCase() == 'approved') // Check for 'APPROVED' or 'approved'
+    .map((json) => LocalNews.fromJson(json))
+    .toList();
+
+
+      print(localNewsList);
+      return localNewsList;
+    } else if (response.statusCode == 401) {
+      Logger().e('Unauthorized request: Invalid token');
+      throw Exception('Unauthorized access - please log in again');
+    } else {
+      Logger().e('Failed to retrieve news: ${response.body}');
+      throw Exception('Failed to retrieve news');
+    }
+  } catch (e) {
+    Logger().e('Network or unexpected error: $e');
+    throw Exception('Failed to connect to the server. Please check your network connection and try again.');
+  }
+}
+
+Future<void> reportNews(Report report) async {
+  String url = '$baseUrl/report-news';
+
+  try {
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(report.toJson()),
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      Logger().i('News reported successfully');
+    } else if (response.statusCode == 401) {
+      Logger().e('Unauthorized request: Invalid token');
+      throw Exception('Unauthorized access - please log in again');
+    } else {
+      Logger().e('Failed to report news: ${response.body}');
+      throw Exception('Failed to report news');
+    }
+  } catch (e) {
+    Logger().e('Network or unexpected error: $e');
+    throw Exception('Failed to connect to the server. Please check your network connection and try again.');
+  }
+  }
 }

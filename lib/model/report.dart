@@ -1,5 +1,5 @@
 class Report {
-  String? newsId;
+  int? newsId;
   String? reason;
   String? description;
 

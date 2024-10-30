@@ -1,5 +1,8 @@
 import 'package:any_link_preview/any_link_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:ospace/model/news.dart';
+import 'package:ospace/publisher/controllers/post/post.dart';
+import 'package:ospace/publisher/screens/post/news_detail.dart';
 import 'package:ospace/screens/custom_inapp_webview.dart';
 import 'package:ospace/service/api_helper.dart';
 import 'package:ospace/widgets/shimmer_card_widget.dart';
@@ -12,9 +15,11 @@ class NewsPage extends StatefulWidget {
   State<NewsPage> createState() => _NewsPageState();
 }
 
-class _NewsPageState extends State<NewsPage> {
+class _NewsPageState extends State<NewsPage> with SingleTickerProviderStateMixin {
+  late TabController _tabController;
   List<String> links = [];
   List<int> allStoryIds = [];
+  List<LocalNews> localNewsList = [];
   bool isLoadingMore = false;
   bool isLoadingInitial = true;
   int currentPage = 0;
@@ -24,8 +29,33 @@ class _NewsPageState extends State<NewsPage> {
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+    loadLocalNews();
+    // print(localNewsList[0]);
     loadInitialNews();
   }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+Future<void> loadLocalNews() async {
+  setState(() {
+    isLoadingInitial = true;
+  });
+
+  localNewsList = await NewsService().getAllNews();
+  print('Local News List: $localNewsList'); // Check if data is loaded
+
+  if (mounted) {
+    setState(() {
+      isLoadingInitial = false;
+    });
+  }
+}
+
 
   Future<void> loadInitialNews() async {
     setState(() {
@@ -67,91 +97,140 @@ class _NewsPageState extends State<NewsPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            children: [
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     const Text('NEWS', style: TextStyle(fontSize: 20)),
-
-              //   ],
-              // ),
-              Expanded(
-                child: isLoadingInitial
-                    ? ListView.builder(
-                        itemCount: 10,
-                        itemBuilder: (context, index) {
-                          return const ShimmerNewsCard();
-                        },
-                      )
-                    : ListView.builder(
-                        itemCount: links.length + 1,
-                        itemBuilder: (context, index) {
-                          if (index == links.length) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 16.0),
-                              child: Center(
-                                child: GestureDetector(
-                                  onTap: loadMoreNews,
-                                  child: isLoadingMore
-                                      ? Shimmer.fromColors(
-                                          baseColor: Colors.grey.shade300,
-                                          highlightColor: Colors.grey.shade100,
-                                          child:  Icon(
-                                            Icons.keyboard_arrow_down,
-                                            size: 40,
-                                            color: Colors.grey.shade700,
-                                          ),
-                                        )
-                                      :  Icon(
-                                          Icons.keyboard_arrow_down,
-                                          size: 40,
-                                          color: Colors.grey.shade700,
-                                        ),
-                                ),
-                              ),
-                            );
-                          }
-
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: AnyLinkPreview(
-                              showMultimedia: true,
-
-                              backgroundColor: Colors.white,
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => CustomInAppBrowser(
-                                      url: links[index],
-                                    ),
-                                  ),
-                                );
-                              },
-                              link: links[index],
-                              displayDirection: UIDirection.uiDirectionHorizontal,
-                              errorImage:
-                                  'https://pbs.twimg.com/profile_images/1148430319680393216/nNOYLkdH_400x400.png',
-                              cache: const Duration(hours: 1),
-                              errorWidget: Container(),
-                            ),
-                          );
-                        },
-                      ),
-              ),
+  @override
+Widget build(BuildContext context) {
+  return Scaffold(
+    body: SafeArea(
+      child: Column(
+        children: [
+          // Tabs without AppBar
+          TabBar(
+            controller: _tabController,
+            tabs: const [
+              Tab(text: 'Global News'),
+              Tab(text: 'Local News'),
             ],
           ),
-        ),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                // Global News Tab with RefreshIndicator
+                RefreshIndicator(
+                  onRefresh: loadInitialNews,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: isLoadingInitial
+                            ? ListView.builder(
+                                itemCount: 10,
+                                itemBuilder: (context, index) {
+                                  return const ShimmerNewsCard();
+                                },
+                              )
+                            : ListView.builder(
+                                itemCount: links.length + 1,
+                                itemBuilder: (context, index) {
+                                  if (index == links.length) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                      child: Center(
+                                        child: GestureDetector(
+                                          onTap: loadMoreNews,
+                                          child: isLoadingMore
+                                              ? Shimmer.fromColors(
+                                                  baseColor: Colors.grey.shade300,
+                                                  highlightColor: Colors.grey.shade100,
+                                                  child: Icon(
+                                                    Icons.keyboard_arrow_down,
+                                                    size: 40,
+                                                    color: Colors.grey.shade700,
+                                                  ),
+                                                )
+                                              : Icon(
+                                                  Icons.keyboard_arrow_down,
+                                                  size: 40,
+                                                  color: Colors.grey.shade700,
+                                                ),
+                                        ),
+                                      ),
+                                    );
+                                  }
+
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: AnyLinkPreview(
+                                      showMultimedia: true,
+                                      backgroundColor: Colors.white,
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => CustomInAppBrowser(
+                                              url: links[index],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      link: links[index],
+                                      displayDirection: UIDirection.uiDirectionHorizontal,
+                                      errorImage:
+                                          'https://pbs.twimg.com/profile_images/1148430319680393216/nNOYLkdH_400x400.png',
+                                      cache: const Duration(hours: 1),
+                                      errorWidget: Container(),
+                                    ),
+                                  );
+                                },
+                              ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Local News Tab with RefreshIndicator
+                RefreshIndicator(
+                  onRefresh: loadLocalNews,
+                  child: isLoadingInitial
+                      ? Center(child: CircularProgressIndicator())
+                      : localNewsList.isEmpty
+                          ? Center(child: Text('No local news available'))
+                          : ListView.builder(
+                              itemCount: localNewsList.length,
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  leading: Container(
+                                    height: 100,
+                                    width: 100,
+                                    child: Image.network(localNewsList[index].coverImage!
+                                        .replaceFirst('localhost', '192.168.43.131')),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  title: Text(localNewsList[index].title!),
+                                  subtitle: Text('by ${localNewsList[index].publisherUserName!}'),
+                                  trailing: Icon(Icons.keyboard_arrow_right),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            NewsDetailPage(news: localNewsList[index]),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
 }
 
 class KActionsWidget extends StatelessWidget {
@@ -183,4 +262,3 @@ class KActionsWidget extends StatelessWidget {
     );
   }
 }
-

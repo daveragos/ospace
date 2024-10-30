@@ -126,6 +126,53 @@ final localNewsList = newsList
   }
 }
 
+
+Future<void> updateNews(LocalNews news, File? coverImageFile) async {
+    String url = '$baseUrl/edit-news';
+
+    try {
+      String? authToken = await SharedStorage().getToken('auth_token');
+
+      if (authToken == null) {
+        Logger().e('Token is missing');
+        throw Exception('Authorization token is required');
+      }
+
+      // Create a multipart request
+      var request = http.MultipartRequest('POST', Uri.parse(url))
+        ..headers['Authorization'] = authToken
+        ..fields['id'] = news.id.toString()
+        ..fields['title'] = news.title!
+        ..fields['content'] = news.content!;
+
+      // Add the file to the request if it exists
+      if (coverImageFile != null) {
+        request.files.add(await http.MultipartFile.fromPath(
+          'coverImage', // This should match the backend expected field name
+          coverImageFile.path,
+        ));
+      }
+
+      // Send the request
+      var response = await request.send();
+
+      // Handle response
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        Logger().i('News updated successfully');
+      } else if (response.statusCode == 401) {
+        Logger().e('Unauthorized request: Invalid token');
+        throw Exception('Unauthorized access - please log in again');
+      } else {
+        Logger().e('Failed to update news: ${await response.stream.bytesToString()}');
+        throw Exception('Failed to update news');
+      }
+    } catch (e) {
+      Logger().e('Network or unexpected error: $e');
+      throw Exception('Failed to connect to the server. Please check your network connection and try again.');
+    }
+  }
+
+
 Future<void> reportNews(Report report) async {
   String url = '$baseUrl/report-news';
 

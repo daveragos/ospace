@@ -1,10 +1,11 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:ospace/model/news.dart';
 import 'package:ospace/publisher/controllers/post/post.dart';
 import 'package:ospace/publisher/controllers/store/shared_storage.dart';
 import 'package:ospace/publisher/screens/post/add_post.dart';
+import 'package:ospace/publisher/screens/post/edit_post.dart'; // Import your edit post page
+import 'package:ospace/publisher/screens/post/news_detail.dart'; // Import the NewsDetailPage
 
 class Posts extends StatefulWidget {
   const Posts({super.key});
@@ -30,12 +31,15 @@ class _PostsState extends State<Posts> {
     try {
       String? userInfo = await SharedStorage().getToken('auth_token');
       Map<String, dynamic> mappedUser = json.decode(userInfo!);
-      String? username = mappedUser['username'];
+      String? username = mappedUser['userName'];
       final fetchedNews = await NewsService().getNewsByPublisher(username!);
       setState(() {
         newsList = fetchedNews;
         filteredNewsList = fetchedNews; // Initially, all news are displayed
-        convertedImages = fetchedNews.map((news) => news.coverImage!.replaceFirst('localhost', '192.168.43.131')).toList();
+        convertedImages = fetchedNews
+            .map((news) =>
+                news.coverImage!.replaceFirst('localhost', '192.168.43.131'))
+            .toList();
         isLoading = false;
       });
     } catch (error) {
@@ -132,7 +136,10 @@ class _PostsState extends State<Posts> {
                           ),
                           child: Image.network(convertedImages[index]),
                         ),
-                        trailing: Container(
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 8.0, vertical: 4.0),
                               decoration: BoxDecoration(
@@ -147,12 +154,28 @@ class _PostsState extends State<Posts> {
                                 ),
                               ),
                             ),
+                            IconButton(
+                              icon: const Icon(Icons.edit),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EditPost(news: news),
+                                  ),
+                                ).then((value) {
+                                  if (value == true) {
+                                    // Refresh the list after editing
+                                    fetchNews();
+                                  }
+                                });
+                              },
+                            ),
+                          ],
+                        ),
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Expanded(child: Text(news.title!)),
-                            // Badge or colored indicator for status
-
                           ],
                         ),
                         subtitle: Text('${news.reports!.length} reports'),
@@ -161,8 +184,7 @@ class _PostsState extends State<Posts> {
                         },
                       ),
                     );
-                  },
-                ),
+                  }),
     );
   }
 }

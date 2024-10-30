@@ -10,7 +10,7 @@ import 'package:ospace/publisher/controllers/post/post.dart';
 class NewsDetailPage extends StatelessWidget {
   final LocalNews news;
 
-  const NewsDetailPage({Key? key, required this.news}) : super(key: key);
+  const NewsDetailPage({super.key, required this.news});
 
   @override
   Widget build(BuildContext context) {

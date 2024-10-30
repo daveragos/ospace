@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:ospace/model/news.dart';
 import 'package:ospace/publisher/controllers/post/post.dart';
+import 'package:ospace/publisher/controllers/store/shared_storage.dart';
 import 'package:ospace/publisher/screens/post/add_post.dart';
 
 class Posts extends StatefulWidget {
@@ -25,7 +28,11 @@ class _PostsState extends State<Posts> {
 
   Future<void> fetchNews() async {
     try {
-      final fetchedNews = await NewsService().getNewsByPublisher("dave_ragos");
+      String? userInfo = await SharedStorage().getToken('auth_token');
+      Map<String, dynamic> mappedUser = json.decode(userInfo!);
+      String? username = mappedUser['username'];
+
+      final fetchedNews = await NewsService().getNewsByPublisher(username!);
       setState(() {
         newsList = fetchedNews;
         filteredNewsList = fetchedNews; // Initially, all news are displayed
@@ -121,10 +128,10 @@ class _PostsState extends State<Posts> {
                         leading: Container(
                           height: 100,
                           width: 100,
-                          child: Image.network(convertedImages[index]),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                           ),
+                          child: Image.network(convertedImages[index]),
                         ),
                         trailing: Container(
                               padding: const EdgeInsets.symmetric(

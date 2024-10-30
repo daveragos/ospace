@@ -201,11 +201,11 @@ Widget build(BuildContext context) {
                                   leading: Container(
                                     height: 100,
                                     width: 100,
-                                    child: Image.network(localNewsList[index].coverImage!
-                                        .replaceFirst('localhost', '192.168.43.131')),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                     ),
+                                    child: Image.network(localNewsList[index].coverImage!
+                                        .replaceFirst('localhost', '192.168.43.131')),
                                   ),
                                   title: Text(localNewsList[index].title!),
                                   subtitle: Text('by ${localNewsList[index].publisherUserName!}'),

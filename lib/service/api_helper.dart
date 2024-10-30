@@ -4,33 +4,56 @@ import 'package:coingecko_api/coingecko_api.dart';
 import 'package:logger/logger.dart';
 import 'package:ospace/model/weather_data.dart';
 import 'package:http/http.dart' as http;
+class Coordinates {
+  final double latitude;
+  final double longitude;
+
+  Coordinates({required this.latitude, required this.longitude});
+}
 
 class ApiHelper {
+
   Logger logger = Logger();
 
   bool icon = false;
   List<dynamic> data = [];
+//{"latitude":9.0,"longitude":38.875,"generationtime_ms":0.00095367431640625,"utc_offset_seconds":0,"timezone":"GMT","timezone_abbreviation":"GMT","elevation":2340.0}
 
-  // Future<WeatherCurrent?> getOnecallWeatherWays(
-  //     {String api = '3721410d028c8efa237d9196d80a6061'}) async {
-  //   final wService = WeatherService(api);
-  //   try {
-  //     WeatherCurrent currently = await wService.currentWeatherByLocation(
-  //       latitude: 9.0107934,
-  //       longitude: 38.7612525,
-  //     );
-  //     return currently;
-  //   } on OwmApiException catch (e) {
-  //     Logger().e('OpenWeatherMap API Error: ${e.message}');
-  //   } on SocketException {
-  //     Logger().e(
-  //         'Network Error: Failed to connect. Check your internet connection.');
-  //   } catch (e) {
-  //     Logger().e('Unexpected Error: $e');
-  //   }
-  //   return null;
-  // }
+  final http.Client httpClient = http.Client();
 
+   Future<WeatherData?> fetchWeatherData([double? latitude, double? longitude]) async {
+    final url = Uri.parse(
+      'https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=uv_index_max,weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,sunset,sunrise&current=temperature_2m,relative_humidity_2m,precipitation,is_day,weather_code&hourly=temperature_2m,weather_code,precipitation,uv_index,visibility,precipitation_probability,cloud_cover,relative_humidity_2m,surface_pressure',
+    );
+
+    final response = await httpClient.get(url);
+    if (response.statusCode == 200) {
+      return WeatherData.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load weather data');
+    }
+  }
+
+ // Fetch coordinates from location name using Open-Meteo Geocoding API
+  Future<Coordinates?> fetchCoordinates(String location) async {
+    final url = Uri.parse(
+      'https://geocoding-api.open-meteo.com/v1/search?name=$location&count=1&language=en&format=json',
+    );
+
+    final response = await httpClient.get(url);
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      if (data['results'].isNotEmpty) {
+        final lat = data['results'][0]['latitude'];
+        final lng = data['results'][0]['longitude'];
+        return Coordinates(latitude: lat, longitude: lng);
+      } else {
+        return null; // No results found
+      }
+    } else {
+      throw Exception('Failed to load coordinates');
+    }
+  }
   //coingecko api caller
   Future<void> coinGeckoCaller() async {
     final api = CoinGeckoApi();
@@ -84,9 +107,7 @@ class ApiHelper {
   }
 
 
-  final http.Client httpClient;
 
-  ApiHelper({http.Client? client}) : httpClient = client ?? http.Client();
 
   Future<List<dynamic>> fetchCryptoPrices() async {
     final response = await httpClient.get(
@@ -100,16 +121,7 @@ class ApiHelper {
     }
   }
 
-  Future<WeatherData?> fetchWeatherData() async {
-    final response = await httpClient.get(Uri.parse(
-      'https://api.open-meteo.com/v1/forecast?latitude=9.0107934&longitude=38.7612525&daily=uv_index_max,weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,sunset,sunrise&current=temperature_2m,relative_humidity_2m,precipitation,is_day,weather_code&hourly=temperature_2m,weather_code,precipitation,uv_index,visibility,precipitation_probability,cloud_cover,relative_humidity_2m,surface_pressure'));
 
-    if (response.statusCode == 200) {
-      return WeatherData.fromJson(json.decode(response.body));
-    } else {
-      throw Exception('Failed to load weather data');
-    }
-  }
 
   Future<List<int>> fetchNewsStoryIds() async {
     final response = await httpClient.get(

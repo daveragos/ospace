@@ -14,7 +14,6 @@ import 'package:ospace/screens/crypto_page.dart';
 import 'package:ospace/screens/news_page.dart';
 import 'package:ospace/screens/weather_page.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -177,23 +176,7 @@ class _KDrawerWidgetState extends State<KDrawerWidget> {
                   MaterialPageRoute(builder: (context) => const CryptoPage()));
             },
           ),
-          ListTile(
-            title: const Text('Settings', style: TextStyle(fontSize: 20)),
-            leading: Icon(Icons.settings),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Settings()));
-            },
-          ),
-          ListTile(
-            title: const Text('Logout', style: TextStyle(fontSize: 20)),
-            leading: Icon(Icons.logout),
-            onTap: () {
-              Navigator.pop(context);
-              // Navigator.push(context, MaterialPageRoute(builder: (context) => const AboutPage()));
-            },
-          ),
+
         ],
       ),
     );

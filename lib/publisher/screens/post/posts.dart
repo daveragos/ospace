@@ -31,7 +31,6 @@ class _PostsState extends State<Posts> {
       String? userInfo = await SharedStorage().getToken('auth_token');
       Map<String, dynamic> mappedUser = json.decode(userInfo!);
       String? username = mappedUser['username'];
-
       final fetchedNews = await NewsService().getNewsByPublisher(username!);
       setState(() {
         newsList = fetchedNews;

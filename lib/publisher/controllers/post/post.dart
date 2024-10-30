@@ -73,7 +73,7 @@ class NewsService {
       body: jsonEncode({'userName': userName}),
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       Logger().i('News retrieved successfully');
       List newsList = jsonDecode(response.body)['data'];
       return newsList.map((json) => LocalNews.fromJson(json)).toList();
